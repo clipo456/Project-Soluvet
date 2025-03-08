@@ -24,6 +24,8 @@ CREATE TABLE cad_animal (
     sexo ENUM('M', 'F', 'Indefinido') NOT NULL,
     cor VARCHAR(100),
     obs_geral VARCHAR(255),
+    plano iNT NOT NULL,
+    FOREIGN KEY (id_plano) REFERENCES planos(id_plano) ON DELETE CASCADE,
     FOREIGN KEY (id_tutor) REFERENCES cad_tutor(id_tutor) ON DELETE CASCADE
 );
 
@@ -36,11 +38,15 @@ CREATE TABLE cad_usuarios (
     senha VARCHAR(255) NOT NULL
 );
 
-/* TABELA DE CADASTRO DE SERVIÇOS OFERECIDOS */
-CREATE TABLE servicos (
-    id_serv INT AUTO_INCREMENT PRIMARY KEY UNIQUE,
+/* TABELA DE CADASTRO DE PLANOS OFERECIDOS */
+CREATE TABLE planos (
+    id_plano INT AUTO_INCREMENT PRIMARY KEY UNIQUE,
     nome VARCHAR(255) UNIQUE NOT NULL,
-    valor DECIMAL(10,2) NOT NULL
+    valor DECIMAL(10,2) NOT NULL,
+    corte_unhas BOOLEAN NOT NULL,
+    limpeza_dentes BOOLEAN NOT NULL,
+    banho_mes INT NOT NULL,
+    tosa_mes INT NOT NULL
 );
 
 /* TABELA DE AGENDAMENTO */
