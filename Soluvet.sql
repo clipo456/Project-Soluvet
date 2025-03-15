@@ -49,14 +49,3 @@ CREATE TABLE planos (
     tosa_mes INT NOT NULL
 );
 
-/* TABELA DE AGENDAMENTO */
-CREATE TABLE agendamentos (
-    id_agenda INT AUTO_INCREMENTO PRIMARY KEY UNIQUE,
-    data_agendamento DATE NOT NULL,
-    id_serv INT NOT NULL,
-    FOREIGN KEY (id_serv) REFERENCES servicos(id_serv),
-    id_animal INT NOT NULL,
-    FOREIGN KEY (id_animal) REFERENCES cad_animal(id_animal) ON DELETE CASCADE,
-    id_tutor INT NOT NULL,
-    FOREIGN KEY (id_tutor) REFERENCES cad_tutor(id_tutor) ON DELETE CASCADE,
-);
