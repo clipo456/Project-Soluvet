@@ -11,7 +11,7 @@ public class DBConnection {
         String databaseName = "soluvet";
         String databaseUser = "root";
         String databasePassword = "";
-        String url = "jdbc:mysql://localhost/" + databaseName;
+        String url = "jdbc:mysql://localhost:3360/" + databaseName;
         
         try {
             Class.forName("com.mysql.cj.jdbc.Driver");

@@ -10,7 +10,7 @@ public class Authenticator {
         DBConnection dbConnection = new DBConnection();
         Connection connection = dbConnection.getConnection();
         
-        String query = "SELECT * FROM cad_usuarios WHERE usuario = ? AND password = ?";
+        String query = "SELECT * FROM cad_usuarios WHERE usuario = ? AND senha = ?";
         
         try {
             PreparedStatement statement = connection.prepareStatement(query);
