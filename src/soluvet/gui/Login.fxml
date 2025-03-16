@@ -17,7 +17,7 @@
         <URL value="@login.css" />
     </stylesheets>
    <children>
-      <Rectangle fill="#a6c795" height="400.0" smooth="false" stroke="#575e58" strokeWidth="0.5" width="200.0" />
+      <Rectangle fill="#a6c795" height="400.0" opacity="0.5" smooth="false" stroke="#575e58" strokeWidth="0.5" width="200.0" />
       <Rectangle fill="#ebebfb" height="400.0" layoutX="200.0" smooth="false" stroke="#e8efe4" strokeWidth="0.5" width="400.0" />
       <Button layoutX="76.0" layoutY="300.0" mnemonicParsing="false" onAction="#handleLogin" text="Entrar">
          <effect>
