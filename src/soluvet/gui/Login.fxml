@@ -19,7 +19,7 @@
    <children>
       <Rectangle fill="#a6c795" height="400.0" opacity="0.5" smooth="false" stroke="#575e58" strokeWidth="0.5" width="200.0" />
       <Rectangle fill="#ebebfb" height="400.0" layoutX="200.0" smooth="false" stroke="#e8efe4" strokeWidth="0.5" width="400.0" />
-      <Button layoutX="76.0" layoutY="300.0" mnemonicParsing="false" onAction="#handleLogin" text="Entrar">
+      <Button layoutX="76.0" layoutY="318.0" mnemonicParsing="false" onAction="#handleLogin" text="Entrar">
          <effect>
             <DropShadow blurType="ONE_PASS_BOX" />
          </effect></Button>
@@ -36,11 +36,6 @@
             <Image url="@../../Img/petsLogin.png" />
          </image>
       </ImageView>
-      <Label layoutX="45.0" layoutY="326.0" opacity="0.62" text="Esqueci minha senha" underline="true">
-         <font>
-            <Font name="System Italic" size="12.0" />
-         </font>
-      </Label>
       <ImageView layoutX="317.0" layoutY="29.0">
          <image>
             <Image url="@../../Img/SOLUVET.png" />
