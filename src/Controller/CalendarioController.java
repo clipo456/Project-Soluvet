@@ -23,6 +23,17 @@ import java.net.URL;
 import java.time.ZonedDateTime;
 import java.util.*;
 
+import Model.DBConnection; 
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.time.LocalDate;
+import java.time.LocalTime;
+import java.time.ZoneId;
+import javafx.geometry.Insets;
+import javafx.geometry.Pos;
+
 public class CalendarioController implements Initializable {
 
     ZonedDateTime dateFocus;
@@ -120,36 +131,31 @@ public class CalendarioController implements Initializable {
         }
     }
 
-    private void createCalendarActivity(List<CalendarioActivity> calendarActivities, double rectangleHeight, double rectangleWidth, StackPane stackPane) {
+   private void createCalendarActivity(List<CalendarioActivity> calendarActivities, double cellHeight, double cellWidth, StackPane stackPane) {
         VBox calendarActivityBox = new VBox();
-        for (int k = 0; k < calendarActivities.size(); k++) {
-            if(k >= 1) {
-                Text moreActivities = new Text("...");
-                calendarActivityBox.getChildren().add(moreActivities);
-                moreActivities.setOnMouseClicked(mouseEvent -> {
-                    //On ... click print all activities for given date
-                    System.out.println(calendarActivities);
-                });
-                break;
-            }
-            //Estilo do texto
-            Text text = new Text(calendarActivities.get(k).getClientName() + ", " + calendarActivities.get(k).getDate().toLocalTime()); text.setStyle("-fx-font-size: 12px; -fx-font-family: 'Segoe UI Semibold'; -fx-fill: black;");
+        calendarActivityBox.setMaxWidth(cellWidth - 10); // Ensure the VBox does not exceed the cell width
+        calendarActivityBox.setMaxHeight(cellHeight * 0.5); // Reduce the height of the activity box (50% of cell height)
+        calendarActivityBox.setStyle("-fx-background-color:#EBEBFB; -fx-padding: 2px; -fx-alignment: center;");
 
+        if (!calendarActivities.isEmpty()) {
+            // Create the text for the first activity
+            String activityText = calendarActivities.get(0).getClientName() + ", " + calendarActivities.get(0).getDate().toLocalTime();
+
+            // Add "..." after the first activity if there are multiple activities
+            if (calendarActivities.size() > 1) {
+                activityText += " ..."; // Add "..." after the first activity
+            }
+
+            // Create a Text node with the combined text
+            Text text = new Text(activityText);
+            text.setStyle("-fx-font-size: 12px; -fx-wrap-text: true;");
+            text.setWrappingWidth(cellWidth - 10); // Set the wrapping width to fit within the cell
             calendarActivityBox.getChildren().add(text);
-            text.setOnMouseClicked(mouseEvent -> {
-                //On Text clicked
-                System.out.println(text.getText());
-            });
         }
-        // Ajustando posição do box de atividades
-        calendarActivityBox.setTranslateY((rectangleHeight / 2) * 0.005); // Ajuste vertical
-        calendarActivityBox.setTranslateX(10); // Ajuste horizontal (mover para a direita)
-        
-        //quadradinhos agendamento
-        calendarActivityBox.setTranslateY((rectangleHeight / 2) * 0.005);
-        calendarActivityBox.setMaxWidth(rectangleWidth * 0.02);
-        calendarActivityBox.setMaxHeight(rectangleHeight * 0.01);
-        calendarActivityBox.setStyle("-fx-background-color:#EBEBFB");
+
+        // Position the activity box in the center of the StackPane, leaving space for the date at the top
+        StackPane.setAlignment(calendarActivityBox, Pos.CENTER);
+        StackPane.setMargin(calendarActivityBox, new Insets(cellHeight * 0.2, 0, 0, 0)); // Add top margin to leave space for the date
         stackPane.getChildren().add(calendarActivityBox);
     }
 
@@ -172,17 +178,43 @@ public class CalendarioController implements Initializable {
     }
 
     private Map<Integer, List<CalendarioActivity>> getCalendarActivitiesMonth(ZonedDateTime dateFocus) {
-        List<CalendarioActivity> calendarActivities = new ArrayList<>();
-        int year = dateFocus.getYear();
-        int month = dateFocus.getMonth().getValue();
+        Map<Integer, List<CalendarioActivity>> calendarActivityMap = new HashMap<>();
 
-        Random random = new Random();
-        for (int i = 0; i < 50; i++) {
-            ZonedDateTime time = ZonedDateTime.of(year, month, random.nextInt(27)+1, 16,0,0,0,dateFocus.getZone());
-            calendarActivities.add(new CalendarioActivity(time, "Hans", 111111));
+        // Consulta SQL para buscar agendamentos do mês atual, incluindo o horário
+        String query = "SELECT a.data_agendamento, a.hora, t.nome " +
+                       "FROM agendamentos a " +
+                       "JOIN cad_tutor t ON a.id_tutor = t.id_tutor " +
+                       "WHERE YEAR(a.data_agendamento) = ? " +
+                       "AND MONTH(a.data_agendamento) = ? " +
+                       "AND a.isDeleted = 0";
+
+        DBConnection dbConnection = new DBConnection();
+        try (Connection conn = dbConnection.getConnection();
+             PreparedStatement stmt = conn.prepareStatement(query)) {
+
+            stmt.setInt(1, dateFocus.getYear());
+            stmt.setInt(2, dateFocus.getMonthValue());
+
+            ResultSet rs = stmt.executeQuery();
+
+            while (rs.next()) {
+                LocalDate localDate = rs.getDate("data_agendamento").toLocalDate();
+                LocalTime localTime = rs.getTime("hora").toLocalTime();  // Obtendo o horário
+                ZonedDateTime zonedDateTime = ZonedDateTime.of(localDate, localTime, dateFocus.getZone());
+
+                String clientName = rs.getString("nome");
+
+                CalendarioActivity activity = new CalendarioActivity(zonedDateTime, clientName, 0);
+                int day = localDate.getDayOfMonth();
+
+                calendarActivityMap.computeIfAbsent(day, k -> new ArrayList<>()).add(activity);
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
         }
 
-        return createCalendarMap(calendarActivities);
+        return calendarActivityMap;
     }
+
 }
 

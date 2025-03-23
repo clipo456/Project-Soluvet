@@ -69,7 +69,7 @@ public class HomeController implements Initializable {
         }
 
         String dataAtual = LocalDate.now().toString();
-        String query = "SELECT d.id_agenda, d.data_agendamento, p.nome AS nome_plano, " +
+        String query = "SELECT d.hora, d.data_agendamento, p.nome AS nome_plano, " +
                        "a.nome AS nome_animal, t.nome AS nome_tutor " +
                        "FROM agendamentos d " +
                        "JOIN planos p ON d.id_plano = p.id_plano " +
@@ -84,11 +84,11 @@ public class HomeController implements Initializable {
 
             ObservableList<String> novosAgendamentos = FXCollections.observableArrayList();
             while (rs.next()) {
-                String idAgenda = rs.getString("id_agenda");
+                String hora = rs.getString("hora");
                 String plano = rs.getString("nome_plano");
                 String animal = rs.getString("nome_animal");
                 String tutor = rs.getString("nome_tutor");
-                novosAgendamentos.add(idAgenda + " - " + animal + " - " + tutor + " - " + plano);
+                novosAgendamentos.add(hora + " - " + animal + " - " + tutor + " - " + plano);
             }
             Platform.runLater(() -> agendamentos.setAll(novosAgendamentos));
 
