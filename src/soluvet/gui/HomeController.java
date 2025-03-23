@@ -3,12 +3,10 @@ package soluvet.gui;
 import java.net.URL;
 import java.util.ResourceBundle;
 import javafx.fxml.Initializable;
-import javafx.scene.control.DatePicker;
 import javafx.scene.control.ListView;
 import javafx.application.Platform;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
-import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
 import javafx.scene.input.MouseEvent;
@@ -16,13 +14,11 @@ import java.sql.*;
 import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
 import javafx.util.Duration;
+import java.time.LocalDate;
 
 public class HomeController implements Initializable {
     private final DB.DBConnection dbConnection = new DB.DBConnection();
     private final Connection conn = dbConnection.getConnection();
-
-    @FXML
-    private DatePicker datePicker;
 
     @FXML
     private ListView<String> appointmentListView;
@@ -33,6 +29,7 @@ public class HomeController implements Initializable {
     public void initialize(URL url, ResourceBundle rb) {
         appointmentListView.setItems(agendamentos);
         configureListView();
+        atualizarAgendamentos(); // Atualiza ao iniciar
         startAutoRefresh();
     }
 
@@ -71,19 +68,18 @@ public class HomeController implements Initializable {
             return;
         }
 
-        String dataSelecionada = (datePicker.getValue() != null) ? datePicker.getValue().toString() : "";
+        String dataAtual = LocalDate.now().toString();
         String query = "SELECT d.id_agenda, d.data_agendamento, p.nome AS nome_plano, " +
-               "a.nome AS nome_animal, t.nome AS nome_tutor " +
-               "FROM agendamentos d " +
-               "JOIN planos p ON d.id_plano = p.id_plano " +
-               "JOIN cad_animal a ON d.id_animal = a.id_animal " +
-               "JOIN cad_tutor t ON d.id_tutor = t.id_tutor " +
-               "WHERE d.data_agendamento = ? " +
-               "ORDER BY d.data_agendamento";
-        
+                       "a.nome AS nome_animal, t.nome AS nome_tutor " +
+                       "FROM agendamentos d " +
+                       "JOIN planos p ON d.id_plano = p.id_plano " +
+                       "JOIN cad_animal a ON d.id_animal = a.id_animal " +
+                       "JOIN cad_tutor t ON d.id_tutor = t.id_tutor " +
+                       "WHERE d.isDeleted = 0 AND d.data_agendamento = ? " +
+                       "ORDER BY d.data_agendamento";
 
         try (PreparedStatement stmt = conn.prepareStatement(query)) {
-            stmt.setString(1, dataSelecionada);
+            stmt.setString(1, dataAtual);
             ResultSet rs = stmt.executeQuery();
 
             ObservableList<String> novosAgendamentos = FXCollections.observableArrayList();
@@ -133,7 +129,7 @@ public class HomeController implements Initializable {
     }
 
     private void excluirAgendamento(String idAgenda) {
-        String query = "DELETE FROM agendamentos WHERE id_agenda = ?";
+        String query = "Update agendamentos set isDeleted = 1 WHERE id_agenda = ?";
         try (PreparedStatement stmt = conn.prepareStatement(query)) {
             stmt.setString(1, idAgenda);
             int rowsAffected = stmt.executeUpdate();
@@ -143,10 +139,5 @@ public class HomeController implements Initializable {
         } catch (SQLException e) {
             e.printStackTrace();
         }
-    }
-
-    @FXML
-    private void aplicarFiltros(ActionEvent event) {
-        atualizarAgendamentos();
     }
 }

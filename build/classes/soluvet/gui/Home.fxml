@@ -107,7 +107,7 @@
             <Font name="Segoe UI Semibold" size="22.0" />
          </font>
       </Label>
-      <DatePicker fx:id="datePicker" blendMode="DARKEN" layoutX="290.0" layoutY="173.0" maxHeight="20.0" minHeight="30.0" onAction="#aplicarFiltros" prefHeight="20.0" prefWidth="153.0" />
+      <DatePicker fx:id="datePicker" blendMode="DARKEN" layoutX="290.0" layoutY="173.0" maxHeight="20.0" minHeight="30.0" prefHeight="20.0" prefWidth="153.0" />
       <ListView fx:id="appointmentListView" blendMode="DARKEN" layoutX="39.0" layoutY="203.0" onMouseClicked="#onAppointmentClicked" prefHeight="492.0" prefWidth="209.0" />
    </children>
 </AnchorPane>
