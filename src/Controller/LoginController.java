@@ -2,9 +2,9 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
  * Click nbfs://nbhost/SystemFileSystem/Templates/javafx/FXMLController.java to edit this template
  */
-package soluvet.gui;
+package Controller;
 
-import DB.Authenticator;
+import Model.Authenticator;
 import java.io.IOException;
 import java.net.URL;
 import java.util.ResourceBundle;
@@ -54,7 +54,7 @@ public class LoginController implements Initializable {
         public void abrirOutraTela(ActionEvent event) {
         try {
             // Carregar o novo FXML
-            FXMLLoader loader = new FXMLLoader(getClass().getResource("/soluvet/gui/Home.fxml"));
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/View/Home.fxml"));
             Parent root = loader.load();
 
             // Criar nova janela

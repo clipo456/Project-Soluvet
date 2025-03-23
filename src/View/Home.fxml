@@ -12,7 +12,7 @@
 <?import javafx.scene.shape.Rectangle?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane id="AnchorPane" maxHeight="720.0" maxWidth="1080.0" minHeight="720.0" minWidth="1080.0" prefHeight="720.0" prefWidth="1080.0" styleClass="mainFxmlClass" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="soluvet.gui.HomeController">
+<AnchorPane id="AnchorPane" maxHeight="720.0" maxWidth="1080.0" minHeight="720.0" minWidth="1080.0" prefHeight="720.0" prefWidth="1080.0" styleClass="mainFxmlClass" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Controller.HomeController">
     <stylesheets>
         <URL value="@home.css" />
     </stylesheets>
@@ -22,7 +22,7 @@
          <graphic>
             <ImageView fitHeight="64.0" fitWidth="60.0" pickOnBounds="true" preserveRatio="true">
                <image>
-                  <Image url="@../../Img/home.png" />
+                  <Image url="@../Img/home.png" />
                </image>
             </ImageView>
          </graphic>
@@ -34,7 +34,7 @@
          <graphic>
             <ImageView fitHeight="43.0" fitWidth="40.0" pickOnBounds="true" preserveRatio="true">
                <image>
-                  <Image url="@../../Img/cadastro.png" />
+                  <Image url="@../Img/cadastro.png" />
                </image>
             </ImageView>
          </graphic>
@@ -49,7 +49,7 @@
          <graphic>
             <ImageView fitHeight="51.0" fitWidth="57.0" pickOnBounds="true" preserveRatio="true">
                <image>
-                  <Image url="@../../Img/banhoPet.png" />
+                  <Image url="@../Img/banhoPet.png" />
                </image>
             </ImageView>
          </graphic>
@@ -64,7 +64,7 @@
          <graphic>
             <ImageView fitHeight="43.0" fitWidth="40.0" pickOnBounds="true" preserveRatio="true">
                <image>
-                  <Image url="@../../Img/Lupa.png" />
+                  <Image url="@../Img/Lupa.png" />
                </image>
             </ImageView>
          </graphic>
@@ -79,7 +79,7 @@
          <graphic>
             <ImageView fitHeight="38.0" fitWidth="42.0" pickOnBounds="true" preserveRatio="true">
                <image>
-                  <Image url="@../../Img/config.png" />
+                  <Image url="@../Img/config.png" />
                </image>
             </ImageView>
          </graphic>
@@ -91,7 +91,7 @@
          <graphic>
             <ImageView fitHeight="34.0" fitWidth="35.0" pickOnBounds="true" preserveRatio="true">
                <image>
-                  <Image url="@../../Img/back_arrow.png" />
+                  <Image url="@../Img/back_arrow.png" />
                </image>
             </ImageView>
          </graphic>

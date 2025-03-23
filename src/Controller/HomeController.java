@@ -1,4 +1,4 @@
-package soluvet.gui;
+package Controller;
 
 import java.net.URL;
 import java.util.ResourceBundle;
@@ -17,7 +17,7 @@ import javafx.util.Duration;
 import java.time.LocalDate;
 
 public class HomeController implements Initializable {
-    private final DB.DBConnection dbConnection = new DB.DBConnection();
+    private final Model.DBConnection dbConnection = new Model.DBConnection();
     private final Connection conn = dbConnection.getConnection();
 
     @FXML
