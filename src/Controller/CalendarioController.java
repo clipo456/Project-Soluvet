@@ -130,7 +130,7 @@ public class CalendarioController implements Initializable {
                         }
                     }
                     if(today.getYear() == dateFocus.getYear() && today.getMonth() == dateFocus.getMonth() && today.getDayOfMonth() == currentDate){
-                        rectangle.setStroke(Color.BLUE);
+                        rectangle.setStroke(Color.MEDIUMVIOLETRED);
                     }
                 }
                 calendar.getChildren().add(stackPane);
@@ -142,7 +142,7 @@ public class CalendarioController implements Initializable {
         VBox calendarActivityBox = new VBox();
         calendarActivityBox.setMaxWidth(cellWidth - 10);
         calendarActivityBox.setMaxHeight(cellHeight * 0.5);
-        calendarActivityBox.setStyle("-fx-background-color:#EBEBFB; -fx-padding: 2px; -fx-alignment: center;");
+        calendarActivityBox.setStyle("-fx-background-color:#ebebfb; -fx-opacity: 0.8; -fx-padding: 2px; -fx-alignment: center;");
 
         if (!calendarActivities.isEmpty()) {
             String activityText = calendarActivities.get(0).getClientName() + ", " + 
