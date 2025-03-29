@@ -3,6 +3,7 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/javafx/FXMLController.java to edit this template
  */
 package Controller;
+
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -22,6 +23,8 @@ import java.io.IOException;
 import java.net.URL;
 import java.time.ZonedDateTime;
 import java.util.*;
+import java.time.format.TextStyle;
+import java.util.Locale;
 
 import Model.DBConnection; 
 import java.sql.Connection;
@@ -50,8 +53,8 @@ public class CalendarioController implements Initializable {
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
-        dateFocus = ZonedDateTime.now();
-        today = ZonedDateTime.now();
+        dateFocus = ZonedDateTime.now(ZoneId.of("America/Sao_Paulo"));
+        today = ZonedDateTime.now(ZoneId.of("America/Sao_Paulo"));
         drawCalendar();
     }
 
@@ -69,9 +72,14 @@ public class CalendarioController implements Initializable {
         drawCalendar();
     }
 
-    private void drawCalendar(){
+    private void drawCalendar() {
         year.setText(String.valueOf(dateFocus.getYear()));
-        month.setText(String.valueOf(dateFocus.getMonth()));
+        
+        // Get month name in Portuguese (Brazil)
+        String monthName = dateFocus.getMonth().getDisplayName(TextStyle.FULL, new Locale("pt", "BR"));
+        // Capitalize first letter
+        monthName = monthName.substring(0, 1).toUpperCase() + monthName.substring(1);
+        month.setText(monthName);
 
         double calendarWidth = calendar.getPrefWidth();
         double calendarHeight = calendar.getPrefHeight();
@@ -91,7 +99,6 @@ public class CalendarioController implements Initializable {
 
         for (int i = 0; i < 6; i++) {
             for (int j = 0; j < 7; j++) {
-                //quadradinho de fora
                 StackPane stackPane = new StackPane();
                 Rectangle rectangle = new Rectangle();
                 rectangle.setFill(Color.TRANSPARENT);
@@ -110,8 +117,8 @@ public class CalendarioController implements Initializable {
                         Text date = new Text(String.valueOf(currentDate));
                         date.setStyle("-fx-font-size: 12px; -fx-font-weight: bold;");
                         
-                        // Ajustar posição no canto superior direito
-                        double padding = 5; // Espaço do canto
+                        // Adjust position to top right corner
+                        double padding = 5;
                         date.setTranslateX((-rectangleWidth / 2.2) + padding);
                         date.setTranslateY((-rectangleHeight / 2.4) + padding);
                         
@@ -131,56 +138,34 @@ public class CalendarioController implements Initializable {
         }
     }
 
-   private void createCalendarActivity(List<CalendarioActivity> calendarActivities, double cellHeight, double cellWidth, StackPane stackPane) {
+    private void createCalendarActivity(List<CalendarioActivity> calendarActivities, double cellHeight, double cellWidth, StackPane stackPane) {
         VBox calendarActivityBox = new VBox();
-        calendarActivityBox.setMaxWidth(cellWidth - 10); // Ensure the VBox does not exceed the cell width
-        calendarActivityBox.setMaxHeight(cellHeight * 0.5); // Reduce the height of the activity box (50% of cell height)
+        calendarActivityBox.setMaxWidth(cellWidth - 10);
+        calendarActivityBox.setMaxHeight(cellHeight * 0.5);
         calendarActivityBox.setStyle("-fx-background-color:#EBEBFB; -fx-padding: 2px; -fx-alignment: center;");
 
         if (!calendarActivities.isEmpty()) {
-            // Create the text for the first activity
-            String activityText = calendarActivities.get(0).getClientName() + ", " + calendarActivities.get(0).getDate().toLocalTime();
+            String activityText = calendarActivities.get(0).getClientName() + ", " + 
+                                 calendarActivities.get(0).getDate().toLocalTime().toString().substring(0, 5); // Show only hours and minutes
 
-            // Add "..." after the first activity if there are multiple activities
             if (calendarActivities.size() > 1) {
-                activityText += " ..."; // Add "..." after the first activity
+                activityText += " ...";
             }
 
-            // Create a Text node with the combined text
             Text text = new Text(activityText);
             text.setStyle("-fx-font-size: 12px; -fx-wrap-text: true;");
-            text.setWrappingWidth(cellWidth - 10); // Set the wrapping width to fit within the cell
+            text.setWrappingWidth(cellWidth - 10);
             calendarActivityBox.getChildren().add(text);
         }
 
-        // Position the activity box in the center of the StackPane, leaving space for the date at the top
         StackPane.setAlignment(calendarActivityBox, Pos.CENTER);
-        StackPane.setMargin(calendarActivityBox, new Insets(cellHeight * 0.2, 0, 0, 0)); // Add top margin to leave space for the date
+        StackPane.setMargin(calendarActivityBox, new Insets(cellHeight * 0.2, 0, 0, 0));
         stackPane.getChildren().add(calendarActivityBox);
-    }
-
-    private Map<Integer, List<CalendarioActivity>> createCalendarMap(List<CalendarioActivity> calendarActivities) {
-        Map<Integer, List<CalendarioActivity>> calendarActivityMap = new HashMap<>();
-
-        for (CalendarioActivity activity: calendarActivities) {
-            int activityDate = activity.getDate().getDayOfMonth();
-            if(!calendarActivityMap.containsKey(activityDate)){
-                calendarActivityMap.put(activityDate, List.of(activity));
-            } else {
-                List<CalendarioActivity> OldListByDate = calendarActivityMap.get(activityDate);
-
-                List<CalendarioActivity> newList = new ArrayList<>(OldListByDate);
-                newList.add(activity);
-                calendarActivityMap.put(activityDate, newList);
-            }
-        }
-        return  calendarActivityMap;
     }
 
     private Map<Integer, List<CalendarioActivity>> getCalendarActivitiesMonth(ZonedDateTime dateFocus) {
         Map<Integer, List<CalendarioActivity>> calendarActivityMap = new HashMap<>();
 
-        // Consulta SQL para buscar agendamentos do mês atual, incluindo o horário
         String query = "SELECT a.data_agendamento, a.hora, t.nome " +
                        "FROM agendamentos a " +
                        "JOIN cad_tutor t ON a.id_tutor = t.id_tutor " +
@@ -199,7 +184,7 @@ public class CalendarioController implements Initializable {
 
             while (rs.next()) {
                 LocalDate localDate = rs.getDate("data_agendamento").toLocalDate();
-                LocalTime localTime = rs.getTime("hora").toLocalTime();  // Obtendo o horário
+                LocalTime localTime = rs.getTime("hora").toLocalTime();
                 ZonedDateTime zonedDateTime = ZonedDateTime.of(localDate, localTime, dateFocus.getZone());
 
                 String clientName = rs.getString("nome");
@@ -215,6 +200,4 @@ public class CalendarioController implements Initializable {
 
         return calendarActivityMap;
     }
-
 }
-
