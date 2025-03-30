@@ -2,6 +2,7 @@
 
 <?import java.net.URL?>
 <?import javafx.scene.control.Button?>
+<?import javafx.scene.control.DatePicker?>
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.ListView?>
 <?import javafx.scene.effect.DropShadow?>
@@ -59,7 +60,7 @@
             <DropShadow height="5.0" radius="2.0" width="5.0" />
          </effect>
       </Button>
-      <Button layoutX="756.0" layoutY="34.0" mnemonicParsing="false" prefHeight="80.0" prefWidth="200.0" text="Consultar">
+      <Button layoutX="756.0" layoutY="34.0" mnemonicParsing="false" onAction="#abrirConsulta" prefHeight="80.0" prefWidth="200.0" text="Consultar">
          <graphic>
             <ImageView fitHeight="43.0" fitWidth="40.0" pickOnBounds="true" preserveRatio="true">
                <image>
@@ -109,6 +110,7 @@
       <ListView fx:id="appointmentListView" blendMode="DARKEN" layoutX="39.0" layoutY="203.0" onMouseClicked="#onAppointmentClicked" prefHeight="492.0" prefWidth="209.0" />
       <AnchorPane layoutX="296.0" layoutY="184.0" maxHeight="500.0" maxWidth="750.0" minHeight="500.0" minWidth="750.0" prefHeight="500.0" prefWidth="750.0" xmlns:fx="http://javafx.com/fxml/1">
         <fx:include source="Calendario.fxml" />
+         <DatePicker blendMode="DARKEN" layoutX="24.0" layoutY="14.0" />
       </AnchorPane>
    </children>
 </AnchorPane>
