@@ -1,5 +1,6 @@
 package Controller;
 
+import java.io.IOException;
 import java.net.URL;
 import java.util.ResourceBundle;
 import java.util.HashMap;
@@ -19,6 +20,12 @@ import java.time.LocalDate;
 import java.time.LocalTime;
 import java.time.format.DateTimeFormatter;
 import java.util.Locale;
+import javafx.event.ActionEvent;
+import javafx.fxml.FXMLLoader;
+import javafx.scene.Node;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
+import javafx.stage.Stage;
 
 public class HomeController implements Initializable {
     private final Model.DBConnection dbConnection = new Model.DBConnection();
@@ -205,4 +212,26 @@ public class HomeController implements Initializable {
             alert.showAndWait();
         });
     }
+    
+    public void abrirConsulta(ActionEvent event) {
+        try {
+            // Carregar o novo FXML
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/View/Consulta.fxml"));
+            Parent root = loader.load();
+
+            // Criar nova janela
+            Stage stage = new Stage();
+            stage.setScene(new Scene(root));
+            stage.setTitle("Consulta");
+            stage.show();
+
+            //Fechar a janela atual
+            Stage janelaAtual = (Stage) ((Node) event.getSource()).getScene().getWindow();
+            janelaAtual.close();
+
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+    
 }

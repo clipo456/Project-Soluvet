@@ -60,7 +60,7 @@
             <DropShadow height="5.0" radius="2.0" width="5.0" />
          </effect>
       </Button>
-      <Button layoutX="756.0" layoutY="34.0" mnemonicParsing="false" prefHeight="80.0" prefWidth="200.0" text="Consultar">
+      <Button layoutX="756.0" layoutY="34.0" mnemonicParsing="false" onAction="#abrirConsulta" prefHeight="80.0" prefWidth="200.0" text="Consultar">
          <graphic>
             <ImageView fitHeight="43.0" fitWidth="40.0" pickOnBounds="true" preserveRatio="true">
                <image>
