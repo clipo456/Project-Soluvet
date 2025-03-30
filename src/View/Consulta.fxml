@@ -31,7 +31,7 @@
             <DropShadow height="5.0" radius="2.0" width="5.0" />
          </effect>
       </Button>
-      <Button layoutX="248.0" layoutY="34.0" mnemonicParsing="false" prefHeight="80.0" prefWidth="200.0" text="Cadastros">
+      <Button layoutX="248.0" layoutY="34.0" mnemonicParsing="false" onAction="#abrirCadastroTutor" prefHeight="80.0" prefWidth="200.0" text="Cadastros">
          <graphic>
             <ImageView fitHeight="43.0" fitWidth="40.0" pickOnBounds="true" preserveRatio="true">
                <image>
@@ -61,7 +61,7 @@
             <DropShadow height="5.0" radius="2.0" width="5.0" />
          </effect>
       </Button>
-      <Button disable="true" layoutX="756.0" layoutY="34.0" mnemonicParsing="false" prefHeight="80.0" prefWidth="200.0" text="Consultar">
+      <Button disable="true" layoutX="756.0" layoutY="34.0" mnemonicParsing="false" onAction="#abrirConsulta" prefHeight="80.0" prefWidth="200.0" text="Consultar">
          <graphic>
             <ImageView fitHeight="43.0" fitWidth="40.0" pickOnBounds="true" preserveRatio="true">
                <image>
@@ -102,7 +102,7 @@
       </Button>
       <Rectangle fill="#ebebfb" height="570.0" layoutX="-1.0" layoutY="148.0" smooth="false" stroke="#e8efe4" strokeWidth="0.5" width="1080.0" />
       <Rectangle arcHeight="15.0" arcWidth="15.0" fill="#a6c795" height="541.0" layoutX="12.0" layoutY="162.0" opacity="0.5" stroke="#575e58" strokeLineCap="ROUND" strokeLineJoin="ROUND" strokeWidth="0.5" width="1055.0" />
-      <TableView fx:id="tutorTable" layoutX="35.0" layoutY="240.0" prefHeight="200.0" prefWidth="447.0">
+      <TableView fx:id="tutorTable" layoutX="28.0" layoutY="233.0" prefHeight="200.0" prefWidth="447.0">
         <columns>
           <TableColumn fx:id="idTCol" prefWidth="48.00000190734863" text="ID" />
           <TableColumn fx:id="nomeTCol" prefWidth="159.99999237060547" text="Nome" />
@@ -114,7 +114,7 @@
          </columnResizePolicy>
       </TableView>
       <TextField fx:id="searchField" layoutX="28.0" layoutY="169.0" prefHeight="26.0" prefWidth="579.0" />
-      <TableView fx:id="petTable" layoutX="35.0" layoutY="487.0" prefHeight="200.0" prefWidth="837.0">
+      <TableView fx:id="petTable" layoutX="29.0" layoutY="472.0" prefHeight="200.0" prefWidth="837.0">
          <columns>
             <TableColumn fx:id="idPCol" prefWidth="48.00000190734863" text="ID" />
             <TableColumn fx:id="nomePCol" prefWidth="159.99999237060547" text="Nome" />
@@ -136,12 +136,12 @@
             <TableView fx:constant="CONSTRAINED_RESIZE_POLICY" />
          </columnResizePolicy>
       </TableView>
-      <Label layoutX="35.0" layoutY="214.0" text="Tutor">
+      <Label layoutX="28.0" layoutY="207.0" text="Tutor">
          <font>
             <Font name="Segoe UI Semibold" size="16.0" />
          </font>
       </Label>
-      <Label layoutX="41.0" layoutY="451.0" text="PET">
+      <Label layoutX="28.0" layoutY="446.0" text="PET">
          <font>
             <Font name="Segoe UI Semibold" size="16.0" />
          </font>
@@ -151,6 +151,37 @@
             <ImageView fitHeight="21.0" fitWidth="21.0" pickOnBounds="true" preserveRatio="true">
                <image>
                   <Image url="@../Img/Lupa.png" />
+               </image>
+            </ImageView>
+         </graphic>
+      </Button>
+      <Button layoutX="889.0" layoutY="580.0" maxHeight="30.0" maxWidth="154.0" minHeight="30.0" minWidth="154.0" mnemonicParsing="false" prefHeight="30.0" prefWidth="154.0" text="Alterar">
+         <font>
+            <Font name="Segoe UI Semibold" size="15.0" />
+         </font>
+         <effect>
+            <DropShadow height="5.0" radius="2.0" width="5.0" />
+         </effect>
+      </Button>
+      <Button layoutX="889.0" layoutY="620.0" maxHeight="30.0" maxWidth="154.0" minHeight="30.0" minWidth="154.0" mnemonicParsing="false" prefHeight="30.0" prefWidth="154.0" text="Excluir">
+         <font>
+            <Font name="Segoe UI Semibold" size="15.0" />
+         </font>
+         <effect>
+            <DropShadow height="5.0" radius="2.0" width="5.0" />
+         </effect>
+      </Button>
+      <Button layoutX="889.0" layoutY="540.0" maxHeight="30.0" maxWidth="154.0" minHeight="30.0" minWidth="154.0" mnemonicParsing="false" onAction="#abrirCadastroPet" prefHeight="30.0" prefWidth="154.0" text="Cadastrar PET">
+         <font>
+            <Font name="Segoe UI Semibold" size="15.0" />
+         </font>
+         <effect>
+            <DropShadow height="5.0" radius="2.0" width="5.0" />
+         </effect>
+         <graphic>
+            <ImageView fitHeight="25.0" fitWidth="21.0" pickOnBounds="true" preserveRatio="true">
+               <image>
+                  <Image url="@../Img/vet%202.png" />
                </image>
             </ImageView>
          </graphic>

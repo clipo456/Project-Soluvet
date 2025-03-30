@@ -18,7 +18,7 @@
     </stylesheets>
    <children>
       <Rectangle fill="#a6c795" height="150.0" opacity="0.6" smooth="false" stroke="#575e58" strokeWidth="0.5" width="1080.0" />
-      <Button fx:id="btnHome" disable="true" layoutX="114.0" layoutY="34.0" mnemonicParsing="false" prefHeight="80.0" prefWidth="80.0">
+      <Button fx:id="btnHome" disable="true" layoutX="114.0" layoutY="34.0" mnemonicParsing="false" onAction="#abrirHome" prefHeight="80.0" prefWidth="80.0">
          <graphic>
             <ImageView fitHeight="64.0" fitWidth="60.0" pickOnBounds="true" preserveRatio="true">
                <image>
@@ -30,7 +30,7 @@
             <DropShadow height="5.0" radius="2.0" width="5.0" />
          </effect>
       </Button>
-      <Button layoutX="248.0" layoutY="34.0" mnemonicParsing="false" prefHeight="80.0" prefWidth="200.0" text="Cadastros">
+      <Button layoutX="248.0" layoutY="34.0" mnemonicParsing="false" onAction="#abrirCadastroTutor" prefHeight="80.0" prefWidth="200.0" text="Cadastros">
          <graphic>
             <ImageView fitHeight="43.0" fitWidth="40.0" pickOnBounds="true" preserveRatio="true">
                <image>

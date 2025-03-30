@@ -38,7 +38,7 @@ public class LoginController implements Initializable {
         
         if (Authenticator.login(username, password)) {
                 showAlert("Login bem-sucedido!", "Bem-vindo, " + username);
-                abrirOutraTela(event);
+                abrirHome(event);
             } else {
                 showAlert("Erro de Login", "Usuário ou senha inválidos.");
             }
@@ -51,7 +51,7 @@ public class LoginController implements Initializable {
          alert.showAndWait();
         }
 
-        public void abrirOutraTela(ActionEvent event) {
+        public void abrirHome(ActionEvent event) {
         try {
             // Carregar o novo FXML
             FXMLLoader loader = new FXMLLoader(getClass().getResource("/View/Home.fxml"));

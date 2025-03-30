@@ -23,7 +23,7 @@ import javafx.scene.control.TextField;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.stage.Stage;
 
-public class ConsultaController implements Initializable {
+public class ConsultaController extends Navigation implements Initializable {
     
     @FXML private TextField searchField;
     
@@ -154,24 +154,4 @@ public class ConsultaController implements Initializable {
         return source != null && source.toLowerCase().contains(searchTerm);
     }
     
-    public void abrirHome(ActionEvent event) {
-        try {
-            // Carregar o novo FXML
-            FXMLLoader loader = new FXMLLoader(getClass().getResource("/View/Home.fxml"));
-            Parent root = loader.load();
-
-            // Criar nova janela
-            Stage stage = new Stage();
-            stage.setScene(new Scene(root));
-            stage.setTitle("Home");
-            stage.show();
-
-            //Fechar a janela atual
-            Stage janelaAtual = (Stage) ((Node) event.getSource()).getScene().getWindow();
-            janelaAtual.close();
-
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-    }
 }

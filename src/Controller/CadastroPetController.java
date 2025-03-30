@@ -13,7 +13,7 @@ import javafx.fxml.Initializable;
  *
  * @author yurim
  */
-public class CadastrosController implements Initializable {
+public class CadastroPetController extends Navigation implements Initializable {
 
     /**
      * Initializes the controller class.
