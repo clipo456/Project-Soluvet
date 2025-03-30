@@ -41,4 +41,32 @@ public class TutorDAO {
         
         return tutores;
     }
+    
+    public boolean insertTutor(Tutor tutor) {
+        DBConnection dbConnection = new DBConnection();
+        Connection connection = dbConnection.getConnection();
+        
+        String query = "INSERT INTO cad_tutor (nome, cpf, data_nascimento, telefone, rua, cidade, bairro, cep, complemento, numero) " +
+                      "VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
+        
+        try {
+            PreparedStatement statement = connection.prepareStatement(query);
+            statement.setString(1, tutor.getNome());
+            statement.setString(2, tutor.getCpf());
+            statement.setString(3, tutor.getDataNasc());
+            statement.setString(4, tutor.getTelefone());
+            statement.setString(5, tutor.getRua());
+            statement.setString(6, tutor.getCidade());
+            statement.setString(7, tutor.getBairro());
+            statement.setString(8, tutor.getCep());
+            statement.setString(9, tutor.getComplemento());
+            statement.setString(10, tutor.getNumero());
+            
+            int rowsAffected = statement.executeUpdate();
+            return rowsAffected > 0;
+        } catch (SQLException e) {
+            e.printStackTrace();
+            return false;
+        }
+    }
 }

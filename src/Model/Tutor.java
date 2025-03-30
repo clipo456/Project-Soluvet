@@ -13,44 +13,45 @@ public class Tutor {
     private String complemento;
     private String numero;
     
-    public Tutor(int id, String nome, String cpf, String telefone, String dataNasc, String rua, String cidade, String bairro, String cep, String complemento, String numero) {
+    public Tutor(int id, String nome, String cpf, String telefone, String dataNasc, 
+                String rua, String cidade, String bairro, String cep, 
+                String complemento, String numero) {
         this.id = id;
         this.nome = nome;
         this.cpf = cpf;
         this.telefone = telefone;
         this.dataNasc = dataNasc;
+        this.rua = rua;
+        this.cidade = cidade;
         this.bairro = bairro;
         this.cep = cep;
-        this.cidade = cidade;
         this.complemento = complemento;
         this.numero = numero;
-        this.rua = rua;
     }
     
-    // Getters and setters
+    // Getters
     public int getId() { return id; }
     public String getNome() { return nome; }
     public String getCpf() { return cpf; }
     public String getTelefone() { return telefone; }
     public String getDataNasc() { return dataNasc; }
+    public String getRua() { return rua; }
+    public String getCidade() { return cidade; }
     public String getBairro() { return bairro; }
     public String getCep() { return cep; }
-    public String getCidade() { return bairro; }
     public String getComplemento() { return complemento; }
     public String getNumero() { return numero; }
-    public String getRua() { return rua; }
     
-    
-    // Setters if needed
+    // Setters
     public void setId(int id) { this.id = id; }
     public void setNome(String nome) { this.nome = nome; }
     public void setCpf(String cpf) { this.cpf = cpf; }
     public void setTelefone(String telefone) { this.telefone = telefone; }
     public void setDataNasc(String dataNasc) { this.dataNasc = dataNasc; }
-    public void setBairro(String bairro) { this.bairro = bairro; }
-    public void setCep(String cep ) { this.cep = cep; }
+    public void setRua(String rua) { this.rua = rua; }
     public void setCidade(String cidade) { this.cidade = cidade; }
+    public void setBairro(String bairro) { this.bairro = bairro; }
+    public void setCep(String cep) { this.cep = cep; }
     public void setComplemento(String complemento) { this.complemento = complemento; }
     public void setNumero(String numero) { this.numero = numero; }
-    public void setRua(String rua) { this.rua = rua; }
 }
