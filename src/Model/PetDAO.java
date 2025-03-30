@@ -33,7 +33,8 @@ public class PetDAO {
                      "TIMESTAMPDIFF(YEAR, a.data_nascimento, CURDATE()) AS idade " +
                      "FROM cad_animal a " +
                      "JOIN cad_tutor t ON a.id_tutor = t.id_tutor " +
-                     "JOIN planos p ON a.id_plano = p.id_plano";
+                     "JOIN planos p ON a.id_plano = p.id_plano " +
+                     "WHERE a.isDeleted = 0";
 
         try (Connection connection = new DBConnection().getConnection();
              PreparedStatement statement = connection.prepareStatement(query);
@@ -71,7 +72,7 @@ public class PetDAO {
                      "FROM cad_animal a " +
                      "JOIN cad_tutor t ON a.id_tutor = t.id_tutor " +
                      "JOIN planos p ON a.id_plano = p.id_plano " +
-                     "WHERE a.id_tutor = ?";
+                     "WHERE a.id_tutor = ? AND a.isDeleted = 0";
 
         try (Connection connection = new DBConnection().getConnection();
              PreparedStatement statement = connection.prepareStatement(query)) {
@@ -100,5 +101,109 @@ public class PetDAO {
             e.printStackTrace();
         }
         return pets;
+    }
+
+    public boolean insertPet(Pet pet) {
+        String query = "INSERT INTO cad_animal (nome, data_nascimento, id_tutor, raca, " +
+                     "especie, sexo, cor, obs_geral, id_plano) " +
+                     "VALUES (?, ?, ?, ?, ?, ?, ?, ?, " +
+                     "(SELECT id_plano FROM planos WHERE nome = ? AND isDeleted = 0))";
+
+        try (Connection connection = new DBConnection().getConnection();
+             PreparedStatement statement = connection.prepareStatement(query)) {
+            
+            statement.setString(1, pet.getNome());
+            statement.setDate(2, java.sql.Date.valueOf(pet.getDataNasc()));
+            statement.setInt(3, pet.getId_tutor());
+            statement.setString(4, pet.getRaca());
+            statement.setString(5, pet.getEspecie());
+            statement.setString(6, String.valueOf(pet.getSexo()));
+            statement.setString(7, pet.getCor());
+            statement.setString(8, pet.getObs());
+            statement.setString(9, pet.getId_plano());
+            
+            return statement.executeUpdate() > 0;
+        } catch (SQLException e) {
+            e.printStackTrace();
+            return false;
+        }
+    }
+
+    public boolean updatePet(Pet pet) {
+        String query = "UPDATE cad_animal SET nome = ?, data_nascimento = ?, id_tutor = ?, " +
+                     "raca = ?, especie = ?, sexo = ?, cor = ?, obs_geral = ?, " +
+                     "id_plano = (SELECT id_plano FROM planos WHERE nome = ? AND isDeleted = 0) " +
+                     "WHERE id_animal = ? AND isDeleted = 0";
+
+        try (Connection connection = new DBConnection().getConnection();
+             PreparedStatement statement = connection.prepareStatement(query)) {
+            
+            statement.setString(1, pet.getNome());
+            statement.setDate(2, java.sql.Date.valueOf(pet.getDataNasc()));
+            statement.setInt(3, pet.getId_tutor());
+            statement.setString(4, pet.getRaca());
+            statement.setString(5, pet.getEspecie());
+            statement.setString(6, String.valueOf(pet.getSexo()));
+            statement.setString(7, pet.getCor());
+            statement.setString(8, pet.getObs());
+            statement.setString(9, pet.getId_plano());
+            statement.setInt(10, pet.getId());
+            
+            return statement.executeUpdate() > 0;
+        } catch (SQLException e) {
+            e.printStackTrace();
+            return false;
+        }
+    }
+
+    public boolean deletePet(int petId) {
+        // Soft delete implementation
+        String query = "UPDATE cad_animal SET isDeleted = 1 WHERE id_animal = ?";
+
+        try (Connection connection = new DBConnection().getConnection();
+             PreparedStatement statement = connection.prepareStatement(query)) {
+            
+            statement.setInt(1, petId);
+            return statement.executeUpdate() > 0;
+        } catch (SQLException e) {
+            e.printStackTrace();
+            return false;
+        }
+    }
+
+    public Pet getPetById(int petId) {
+        String query = "SELECT a.id_animal, a.nome, a.data_nascimento, " +
+                     "a.id_tutor, a.raca, a.especie, a.sexo, a.cor, " +
+                     "a.obs_geral, p.nome AS plano_nome, " +
+                     "TIMESTAMPDIFF(YEAR, a.data_nascimento, CURDATE()) AS idade " +
+                     "FROM cad_animal a " +
+                     "JOIN planos p ON a.id_plano = p.id_plano " +
+                     "WHERE a.id_animal = ? AND a.isDeleted = 0";
+
+        try (Connection connection = new DBConnection().getConnection();
+             PreparedStatement statement = connection.prepareStatement(query)) {
+            
+            statement.setInt(1, petId);
+            try (ResultSet resultSet = statement.executeQuery()) {
+                if (resultSet.next()) {
+                    return new Pet(
+                        resultSet.getInt("id_animal"),
+                        resultSet.getString("nome"),
+                        resultSet.getDate("data_nascimento").toLocalDate(),
+                        resultSet.getInt("id_tutor"),
+                        resultSet.getString("raca"),
+                        resultSet.getString("especie"),
+                        resultSet.getString("sexo").charAt(0),
+                        resultSet.getString("cor"),
+                        resultSet.getString("obs_geral"),
+                        resultSet.getString("plano_nome"),
+                        resultSet.getInt("idade")
+                    );
+                }
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return null;
     }
 }

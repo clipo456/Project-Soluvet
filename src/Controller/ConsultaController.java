@@ -1,5 +1,6 @@
 package Controller;
 
+import Model.Pet;
 import Model.PetDAO;
 import Model.PetDAO.PetWithTutor;
 import Model.Tutor;
@@ -17,24 +18,23 @@ import javafx.fxml.Initializable;
 import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.control.Alert;
+import javafx.scene.control.ButtonType;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
 import javafx.scene.control.cell.PropertyValueFactory;
+import javafx.stage.Modality;
 import javafx.stage.Stage;
 
 public class ConsultaController extends Navigation implements Initializable {
     
     @FXML private TextField searchField;
-    
-    // Tutor Table
     @FXML private TableView<Tutor> tutorTable;
     @FXML private TableColumn<Tutor, Integer> idTCol;
     @FXML private TableColumn<Tutor, String> nomeTCol;
     @FXML private TableColumn<Tutor, String> cpfTCol;
     @FXML private TableColumn<Tutor, String> telTCol;
-    
-    // Pet Table
     @FXML private TableView<PetWithTutor> petTable;
     @FXML private TableColumn<PetWithTutor, Integer> idPCol;
     @FXML private TableColumn<PetWithTutor, String> nomePCol;
@@ -48,16 +48,23 @@ public class ConsultaController extends Navigation implements Initializable {
     @FXML private TableColumn<PetWithTutor, String> obsPCol;
     @FXML private TableColumn<PetWithTutor, String> idadePCol;
 
+    private TableView<?> lastFocusedTable;
+    private Stage currentStage;
+
     @Override
     public void initialize(URL url, ResourceBundle rb) {
-        // Initialize tables
         initializeTutorTable();
         initializePetTable();
-        
-        // Load initial data
         loadTutorData();
         
-        // Set up selection listener
+        tutorTable.focusedProperty().addListener((obs, oldVal, newVal) -> {
+            if (newVal) lastFocusedTable = tutorTable;
+        });
+        
+        petTable.focusedProperty().addListener((obs, oldVal, newVal) -> {
+            if (newVal) lastFocusedTable = petTable;
+        });
+        
         tutorTable.getSelectionModel().selectedItemProperty().addListener(
             (observable, oldValue, newValue) -> {
                 if (newValue != null) {
@@ -66,6 +73,10 @@ public class ConsultaController extends Navigation implements Initializable {
             });
     }
     
+    public void setStage(Stage stage) {
+        this.currentStage = stage;
+    }
+
     private void initializeTutorTable() {
         idTCol.setCellValueFactory(new PropertyValueFactory<>("id"));
         nomeTCol.setCellValueFactory(new PropertyValueFactory<>("nome"));
@@ -88,12 +99,6 @@ public class ConsultaController extends Navigation implements Initializable {
             new SimpleStringProperty(String.valueOf(cellData.getValue().getIdade())));
     }
     
-    private void loadTutorData() {
-        TutorDAO tutorDAO = new TutorDAO();
-        ObservableList<Tutor> tutores = tutorDAO.getTutores();
-        tutorTable.setItems(tutores);
-    }
-    
     private void loadPetData(int tutorId) {
         PetDAO petDAO = new PetDAO();
         ObservableList<PetWithTutor> pets = petDAO.getPetsByTutorWithName(tutorId);
@@ -112,11 +117,9 @@ public class ConsultaController extends Navigation implements Initializable {
         PetDAO petDAO = new PetDAO();
         TutorDAO tutorDAO = new TutorDAO();
 
-        // Search across both tables
         ObservableList<Tutor> filteredTutores = FXCollections.observableArrayList();
         ObservableList<PetWithTutor> filteredPets = FXCollections.observableArrayList();
 
-        // Search tutors
         for (Tutor tutor : tutorDAO.getTutores()) {
             if (containsIgnoreCase(tutor.getNome(), searchTerm) ||
                 containsIgnoreCase(tutor.getCpf(), searchTerm) ||
@@ -129,7 +132,6 @@ public class ConsultaController extends Navigation implements Initializable {
             }
         }
 
-        // Search pets (including their tutor names)
         for (PetWithTutor pet : petDAO.getPetsWithTutors()) {
             if (containsIgnoreCase(pet.getNome(), searchTerm) ||
                 containsIgnoreCase(pet.getTutorNome(), searchTerm) ||
@@ -144,14 +146,195 @@ public class ConsultaController extends Navigation implements Initializable {
             }
         }
 
-        // Update both tables
         tutorTable.setItems(filteredTutores);
         petTable.setItems(filteredPets);
     }
 
-    // Helper method for case-insensitive contains check
     private boolean containsIgnoreCase(String source, String searchTerm) {
         return source != null && source.toLowerCase().contains(searchTerm);
     }
     
+    @FXML
+    private void handleEdit() {
+        if (lastFocusedTable == null) {
+            showAlert("Erro", "Selecione um tutor ou pet para editar", Alert.AlertType.WARNING);
+            return;
+        }
+        
+        if (lastFocusedTable == tutorTable) {
+            handleEditTutor();
+        } else if (lastFocusedTable == petTable) {
+            handleEditPet();
+        }
+    }
+    
+    private void handleEditTutor() {
+        Tutor selectedTutor = tutorTable.getSelectionModel().getSelectedItem();
+        
+        if (selectedTutor == null) {
+            showAlert("Erro", "Selecione um tutor para editar", Alert.AlertType.WARNING);
+            return;
+        }
+        
+        try {
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/View/CadastroTutor.fxml"));
+            Parent root = loader.load();
+            
+            CadastroTutorController controller = loader.getController();
+            controller.setTutorForEdit(selectedTutor);
+            
+            Stage editStage = new Stage();
+            editStage.setScene(new Scene(root));
+            editStage.setTitle("Editar Tutor");
+            editStage.initModality(Modality.APPLICATION_MODAL);
+            editStage.initOwner(currentStage);
+            
+            currentStage.hide();
+            
+            editStage.setOnHidden(e -> {
+                currentStage.show();
+                refreshTables();
+            });
+            
+            editStage.showAndWait();
+            
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+    
+    private void handleEditPet() {
+        PetWithTutor selectedPet = petTable.getSelectionModel().getSelectedItem();
+        
+        if (selectedPet == null) {
+            showAlert("Erro", "Selecione um pet para editar", Alert.AlertType.WARNING);
+            return;
+        }
+        
+        try {
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/View/CadastroPet.fxml"));
+            Parent root = loader.load();
+            
+            CadastroPetController controller = loader.getController();
+            Pet pet = new Pet(
+                selectedPet.getId(),
+                selectedPet.getNome(),
+                selectedPet.getDataNasc(),
+                selectedPet.getId_tutor(),
+                selectedPet.getRaca(),
+                selectedPet.getEspecie(),
+                selectedPet.getSexo(),
+                selectedPet.getCor(),
+                selectedPet.getObs(),
+                selectedPet.getId_plano(),
+                selectedPet.getIdade()
+            );
+            controller.setPetForEdit(pet);
+            
+            Stage editStage = new Stage();
+            editStage.setScene(new Scene(root));
+            editStage.setTitle("Editar Pet");
+            editStage.initModality(Modality.APPLICATION_MODAL);
+            editStage.initOwner(currentStage);
+            
+            currentStage.hide();
+            
+            editStage.setOnHidden(e -> {
+                currentStage.show();
+                refreshTables();
+            });
+            
+            editStage.showAndWait();
+            
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+    
+    @FXML
+    private void handleDelete() {
+        if (lastFocusedTable == null) {
+            showAlert("Erro", "Selecione um tutor ou pet para excluir", Alert.AlertType.WARNING);
+            return;
+        }
+        
+        if (lastFocusedTable == tutorTable) {
+            handleDeleteTutor();
+        } else if (lastFocusedTable == petTable) {
+            handleDeletePet();
+        }
+    }
+    
+    private void handleDeleteTutor() {
+        Tutor selectedTutor = tutorTable.getSelectionModel().getSelectedItem();
+        
+        if (selectedTutor == null) {
+            showAlert("Erro", "Selecione um tutor para excluir", Alert.AlertType.WARNING);
+            return;
+        }
+        
+        Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
+        alert.setTitle("Confirmação");
+        alert.setHeaderText("Excluir Tutor");
+        alert.setContentText("Tem certeza que deseja excluir o tutor " + selectedTutor.getNome() + "?");
+        
+        alert.showAndWait().ifPresent(response -> {
+            if (response == ButtonType.OK) {
+                boolean success = new TutorDAO().softDeleteTutor(selectedTutor.getId());
+                
+                if (success) {
+                    showAlert("Sucesso", "Tutor excluído com sucesso", Alert.AlertType.INFORMATION);
+                    refreshTables();
+                } else {
+                    showAlert("Erro", "Falha ao excluir tutor", Alert.AlertType.ERROR);
+                }
+            }
+        });
+    }
+    
+    private void handleDeletePet() {
+        PetWithTutor selectedPet = petTable.getSelectionModel().getSelectedItem();
+        
+        if (selectedPet == null) {
+            showAlert("Erro", "Selecione um pet para excluir", Alert.AlertType.WARNING);
+            return;
+        }
+        
+        Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
+        alert.setTitle("Confirmação");
+        alert.setHeaderText("Excluir Pet");
+        alert.setContentText("Tem certeza que deseja excluir o pet " + selectedPet.getNome() + "?");
+        
+        alert.showAndWait().ifPresent(response -> {
+            if (response == ButtonType.OK) {
+                boolean success = new PetDAO().deletePet(selectedPet.getId());
+                
+                if (success) {
+                    showAlert("Sucesso", "Pet excluído com sucesso", Alert.AlertType.INFORMATION);
+                    refreshTables();
+                } else {
+                    showAlert("Erro", "Falha ao excluir pet", Alert.AlertType.ERROR);
+                }
+            }
+        });
+    }
+    
+    private void refreshTables() {
+        loadTutorData();
+        petTable.setItems(FXCollections.observableArrayList());
+    }
+    
+    public void loadTutorData() {
+        TutorDAO tutorDAO = new TutorDAO();
+        ObservableList<Tutor> tutores = tutorDAO.getTutores();
+        tutorTable.setItems(tutores);
+    }
+    
+    private void showAlert(String title, String message, Alert.AlertType type) {
+        Alert alert = new Alert(type);
+        alert.setTitle(title);
+        alert.setHeaderText(null);
+        alert.setContentText(message);
+        alert.showAndWait();
+    }
 }

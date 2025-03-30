@@ -9,6 +9,7 @@ import java.time.format.DateTimeFormatter;
 import java.util.ResourceBundle;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
+import javafx.scene.Node;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.DatePicker;
@@ -31,6 +32,9 @@ public class CadastroTutorController extends Navigation implements Initializable
     @FXML private Button btnCadastrar;
     @FXML private Button btnLimpar;
 
+    private boolean isEditMode = false;
+    private Tutor tutorToEdit;
+    
     @Override
     public void initialize(URL url, ResourceBundle rb) {
         // Initialize date picker with current date
@@ -44,35 +48,45 @@ public class CadastroTutorController extends Navigation implements Initializable
 
     @FXML
     private void cadastrarTutor() {
-        // Validate required fields
-        if (!validateFields()) return;
-        
-        // Get formatted birth date
-        String dataNasc = dataNascPicker.getValue().format(DateTimeFormatter.ofPattern("yyyy-MM-dd"));
-        
-        // Create Tutor object
-        Tutor tutor = new Tutor(
-            0, // ID will be auto-generated
-            nomeTxt.getText().trim(),
-            cpfTxt.getText().replaceAll("[^0-9]", ""),
-            telTxt.getText().replaceAll("[^0-9]", ""),
-            dataNasc,
-            ruaTxt.getText().trim(),
-            cidadeTxt.getText().trim(),
-            bairroTxt.getText().trim(),
-            cepTxt.getText().replaceAll("[^0-9]", ""),
-            compTxt.getText().trim(),
-            numeroTxt.getText().trim()
-        );
+            // Validate required fields
+            if (!validateFields()) return;
+             // Get formatted birth date
+            String dataNasc = dataNascPicker.getValue().format(DateTimeFormatter.ofPattern("yyyy-MM-dd"));
 
-        // Save to database
-        boolean success = new TutorDAO().insertTutor(tutor);
-        
-        if (success) {
-            showAlert("Sucesso", "Tutor cadastrado com sucesso!", Alert.AlertType.INFORMATION);
-            limparCampos();
-        } else {
-            showAlert("Erro", "Falha ao cadastrar tutor", Alert.AlertType.ERROR);
+            // Create Tutor object
+            Tutor tutor = new Tutor(
+                isEditMode ? tutorToEdit.getId() : 0, // ID will be auto-generated for new tutors
+                nomeTxt.getText().trim(),
+                cpfTxt.getText().replaceAll("[^0-9]", ""),
+                telTxt.getText().replaceAll("[^0-9]", ""),
+                dataNasc,
+                ruaTxt.getText().trim(),
+                cidadeTxt.getText().trim(),
+                bairroTxt.getText().trim(),
+                cepTxt.getText().replaceAll("[^0-9]", ""),
+                compTxt.getText().trim(),
+                numeroTxt.getText().trim()
+            );
+
+            // Save to database
+            boolean success;
+            if (isEditMode) {
+                success = new TutorDAO().updateTutor(tutor);
+            } else {
+                success = new TutorDAO().insertTutor(tutor);
+            }
+
+            if (success) {
+                String message = isEditMode ? "Tutor atualizado com sucesso!" : "Tutor cadastrado com sucesso!";
+                showAlert("Sucesso", message, Alert.AlertType.INFORMATION);
+                limparCampos();
+
+                // Close the window if in edit mode
+                if (isEditMode) {
+                    ((Node) btnCadastrar).getScene().getWindow().hide();
+                }
+            } else {
+                showAlert("Erro", "Falha ao " + (isEditMode ? "atualizar" : "cadastrar") + " tutor", Alert.AlertType.ERROR);
         }
     }
 
@@ -122,4 +136,24 @@ public class CadastroTutorController extends Navigation implements Initializable
         alert.setContentText(message);
         alert.showAndWait();
     }
+    
+     public void setTutorForEdit(Tutor tutor) {
+        this.tutorToEdit = tutor;
+        this.isEditMode = true;
+        
+        // Populate fields with tutor data
+        nomeTxt.setText(tutor.getNome());
+        cpfTxt.setText(tutor.getCpf());
+        telTxt.setText(tutor.getTelefone());
+        dataNascPicker.setValue(LocalDate.parse(tutor.getDataNasc()));
+        ruaTxt.setText(tutor.getRua());
+        cidadeTxt.setText(tutor.getCidade());
+        bairroTxt.setText(tutor.getBairro());
+        cepTxt.setText(tutor.getCep());
+        compTxt.setText(tutor.getComplemento());
+        numeroTxt.setText(tutor.getNumero());
+        
+        btnCadastrar.setText("Atualizar");
+    }
+
 }
