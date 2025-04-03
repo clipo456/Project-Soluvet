@@ -1,0 +1,38 @@
+/*
+ * Empty Stylesheet file.
+ */
+
+.mainFxmlClass {
+
+
+.botao-custom {
+    -fx-background-color: white;
+    -fx-text-fill: black;
+    -fx-font-size: 16px;
+    -fx-font-weight: bold;
+    -fx-padding: 10px 20px;
+    -fx-border-radius: 15px;
+    -fx-background-radius: 15px;
+    -fx-border-color: rgba(0, 0, 0, 0.1);
+    -fx-border-width: 2px;
+    -fx-effect: dropshadow(gaussian, rgba(0, 0, 0, 0.3), 5, 0, 0, 3);
+}
+
+.botao-custom:hover {
+    -fx-background-color: #f0f0f0;
+}
+
+/* Style for sexo menu */
+#sexoMenu {
+    -fx-pref-width: 100px;
+    -fx-font-size: 14px;
+}
+
+#sexoMenu .menu-item {
+    -fx-padding: 5px 10px;
+}
+
+#sexoMenu .menu-item:focused {
+    -fx-background-color: #a6c795;
+}
+}
