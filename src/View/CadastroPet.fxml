@@ -142,7 +142,6 @@
       <TextField fx:id="racaTxt" layoutX="507.0" layoutY="218.0" prefHeight="26.0" prefWidth="168.0" promptText="Raça do animal" />
       <TextField fx:id="especTxt" layoutX="65.0" layoutY="310.0" prefHeight="26.0" prefWidth="148.0" promptText="Espécie do animal" />
       <TextField fx:id="corTxt" layoutX="248.0" layoutY="310.0" prefHeight="26.0" prefWidth="178.0" promptText="Cor do animal" />
-      <TextField fx:id="SexoTxt" layoutX="472.0" layoutY="310.0" prefHeight="26.0" prefWidth="90.0" promptText="M/F" />
       <TextField fx:id="obsTxt" layoutX="66.0" layoutY="386.0" prefHeight="140.0" prefWidth="848.0" promptText="Observações pertinentes" />
       <Button fx:id="btnCadastrar" layoutX="69.0" layoutY="602.0" mnemonicParsing="false" onAction="#cadastrarPet" prefHeight="60.0" prefWidth="130.0" stylesheets="@CadastroPet.css" text="Cadastrar">
          <font>
@@ -181,6 +180,12 @@
          <items>
             <MenuItem mnemonicParsing="false" text="Action 1" />
             <MenuItem mnemonicParsing="false" text="Action 2" />
+         </items>
+      </MenuButton>
+      <MenuButton fx:id="sexoMenu" layoutX="472.0" layoutY="310.0" mnemonicParsing="false" prefHeight="37.0" prefWidth="81.0" text="Sexo">
+         <items>
+            <MenuItem mnemonicParsing="false" onAction="#handleSexoSelection" text="M" />
+            <MenuItem mnemonicParsing="false" onAction="#handleSexoSelection" text="F" />
          </items>
       </MenuButton>
    </children>

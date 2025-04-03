@@ -10,6 +10,7 @@ import java.net.URL;
 import java.time.LocalDate;
 import java.util.ResourceBundle;
 import javafx.collections.ObservableList;
+import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Alert;
@@ -25,11 +26,11 @@ public class CadastroPetController extends Navigation implements Initializable {
     @FXML private TextField racaTxt;
     @FXML private TextField especTxt;
     @FXML private TextField corTxt;
-    @FXML private TextField SexoTxt;
     @FXML private TextField obsTxt;
     @FXML private DatePicker dataNascPicker;
     @FXML private MenuButton tutorMenu;
     @FXML private MenuButton planoMenu;
+    @FXML private MenuButton sexoMenu;
     @FXML private Button btnCadastrar;
     @FXML private Button btnLimpar;
     
@@ -44,6 +45,18 @@ public class CadastroPetController extends Navigation implements Initializable {
         tutorDAO = new TutorDAO();
         loadTutorMenu();
         loadPlanoMenu();
+        initializeSexoMenu();
+    }
+    
+    private void initializeSexoMenu() {
+        sexoMenu.setText("Sexo"); // Default text
+        // Items are defined in FXML with M and F options
+    }
+    
+    @FXML
+    private void handleSexoSelection(ActionEvent event) {
+        MenuItem selectedItem = (MenuItem) event.getSource();
+        sexoMenu.setText(selectedItem.getText());
     }
     
     private void loadTutorMenu() {
@@ -85,7 +98,7 @@ public class CadastroPetController extends Navigation implements Initializable {
         LocalDate dataNasc = dataNascPicker.getValue();
         String raca = racaTxt.getText();
         String especie = especTxt.getText();
-        char sexo = SexoTxt.getText().charAt(0);
+        char sexo = sexoMenu.getText().charAt(0);
         String cor = corTxt.getText();
         String obs = obsTxt.getText();
         
@@ -129,28 +142,26 @@ public class CadastroPetController extends Navigation implements Initializable {
         racaTxt.clear();
         especTxt.clear();
         corTxt.clear();
-        SexoTxt.clear();
         obsTxt.clear();
         dataNascPicker.setValue(null);
         tutorMenu.setText("Selecione o Tutor");
         planoMenu.setText("Selecione o Plano");
+        sexoMenu.setText("Sexo");
         petForEdit = null;
         btnCadastrar.setText("Cadastrar");
     }
     
     private boolean validateFields() {
-        if (nomeTxt.getText().isEmpty() || racaTxt.getText().isEmpty() || 
-            especTxt.getText().isEmpty() || corTxt.getText().isEmpty() || 
-            SexoTxt.getText().isEmpty() || dataNascPicker.getValue() == null || 
+        if (nomeTxt.getText().isEmpty() || 
+            racaTxt.getText().isEmpty() || 
+            especTxt.getText().isEmpty() || 
+            corTxt.getText().isEmpty() || 
+            sexoMenu.getText().equals("Sexo") || 
+            dataNascPicker.getValue() == null || 
             tutorMenu.getText().equals("Selecione o Tutor") || 
             planoMenu.getText().equals("Selecione o Plano")) {
             
             showAlert("Erro", "Preencha todos os campos obrigatórios", Alert.AlertType.WARNING);
-            return false;
-        }
-        
-        if (SexoTxt.getText().length() != 1 || !("MmFf".contains(SexoTxt.getText().toUpperCase()))) {
-            showAlert("Erro", "Sexo deve ser M ou F", Alert.AlertType.WARNING);
             return false;
         }
         
@@ -170,7 +181,7 @@ public class CadastroPetController extends Navigation implements Initializable {
         racaTxt.setText(petForEdit.getRaca());
         especTxt.setText(petForEdit.getEspecie());
         corTxt.setText(petForEdit.getCor());
-        SexoTxt.setText(String.valueOf(petForEdit.getSexo()));
+        sexoMenu.setText(String.valueOf(petForEdit.getSexo()));
         obsTxt.setText(petForEdit.getObs());
         dataNascPicker.setValue(petForEdit.getDataNasc());
         

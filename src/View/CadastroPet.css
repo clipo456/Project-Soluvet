@@ -3,7 +3,8 @@
  */
 
 .mainFxmlClass {
-    
+
+
 .botao-custom {
     -fx-background-color: white;
     -fx-text-fill: black;
@@ -19,5 +20,19 @@
 
 .botao-custom:hover {
     -fx-background-color: #f0f0f0;
+}
+
+/* Style for sexo menu */
+#sexoMenu {
+    -fx-pref-width: 100px;
+    -fx-font-size: 14px;
+}
+
+#sexoMenu .menu-item {
+    -fx-padding: 5px 10px;
+}
+
+#sexoMenu .menu-item:focused {
+    -fx-background-color: #a6c795;
 }
 }
