@@ -3,9 +3,13 @@
     <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/2" lastBookmarkId="0"/>
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
         <group>
+            <file>file:/C:/Users/yurim/Documents/NetBeansProjects/Project-Soluvet/src/View/CadastroPet.fxml</file>
+            <file>file:/C:/Users/yurim/Documents/NetBeansProjects/Project-Soluvet/src/Soluvet.java</file>
+            <file>file:/C:/Users/yurim/Documents/NetBeansProjects/Project-Soluvet/src/Controller/HomeController.java</file>
+            <file>file:/C:/Users/yurim/Documents/NetBeansProjects/Project-Soluvet/src/Controller/LoginController.java</file>
             <file>file:/C:/Users/yurim/Documents/NetBeansProjects/Project-Soluvet/src/Controller/Navigation.java</file>
             <file>file:/C:/Users/yurim/Documents/NetBeansProjects/Project-Soluvet/src/Controller/ConsultaController.java</file>
-            <file>file:/C:/Users/yurim/Documents/NetBeansProjects/Project-Soluvet/src/Controller/CadastroPetController.java</file>
+            <file>file:/C:/Users/yurim/Documents/NetBeansProjects/Project-Soluvet/src/View/CadastroTutor.css</file>
         </group>
     </open-files>
 </project-private>
