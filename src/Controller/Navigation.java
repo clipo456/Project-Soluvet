@@ -10,40 +10,45 @@ import javafx.stage.Stage;
 
 public class Navigation {
     
+    private static Stage mainStage; // Keep track of the main stage
+    
+    public static void setMainStage(Stage stage) {
+        mainStage = stage;
+    }
+    
     public void abrirHome(ActionEvent event) throws IOException {
-        carregarJanela("/View/Home.fxml", "Home", event);
+        loadView("/View/Home.fxml", "Home", event);
     }
     
     public void abrirCadastroTutor(ActionEvent event) throws IOException {
-        carregarJanela("/View/CadastroTutor.fxml", "Cadastro Tutor", event);
+        loadView("/View/CadastroTutor.fxml", "Cadastro Tutor", event);
     }
     
     public void abrirCadastroPet(ActionEvent event) throws IOException {
-        carregarJanela("/View/CadastroPet.fxml", "Cadastro Pet", event);
+        loadView("/View/CadastroPet.fxml", "Cadastro Pet", event);
     }
     
     public void abrirConsulta(ActionEvent event) throws IOException {
-        FXMLLoader loader = new FXMLLoader(getClass().getResource("/View/Consulta.fxml"));
-        Parent root = loader.load();
-        
-        ConsultaController controller = loader.getController();
-        Stage stage = new Stage();
-        controller.setStage(stage);
-        
-        stage.setScene(new Scene(root));
-        stage.setTitle("Consulta");
-        stage.show();
-        
-        ((Node)(event.getSource())).getScene().getWindow().hide();
+        loadView("/View/Consulta.fxml", "Consulta", event);
     }
     
-    private void carregarJanela(String fxml, String title, ActionEvent event) throws IOException {
-        Parent root = FXMLLoader.load(getClass().getResource(fxml));
-        Stage stage = new Stage();
-        stage.setScene(new Scene(root));
-        stage.setTitle(title);
-        stage.show();
+    private void loadView(String fxmlPath, String title, ActionEvent event) throws IOException {
+        // Get the current stage from the event source
+        Stage currentStage = (Stage) ((Node) event.getSource()).getScene().getWindow();
         
-        ((Node)(event.getSource())).getScene().getWindow().hide();
+        // Load the new FXML
+        FXMLLoader loader = new FXMLLoader(getClass().getResource(fxmlPath));
+        Parent root = loader.load();
+        
+        // Set the new scene on the current stage
+        Scene scene = new Scene(root);
+        currentStage.setScene(scene);
+        currentStage.setTitle(title);
+        currentStage.show();
+        
+        // If we're loading Consulta, set its stage reference
+        if (loader.getController() instanceof ConsultaController) {
+            ((ConsultaController) loader.getController()).setStage(currentStage);
+        }
     }
 }

@@ -169,87 +169,72 @@ public class ConsultaController extends Navigation implements Initializable {
     }
     
     private void handleEditTutor() {
-        Tutor selectedTutor = tutorTable.getSelectionModel().getSelectedItem();
-        
-        if (selectedTutor == null) {
-            showAlert("Erro", "Selecione um tutor para editar", Alert.AlertType.WARNING);
-            return;
-        }
-        
-        try {
-            FXMLLoader loader = new FXMLLoader(getClass().getResource("/View/CadastroTutor.fxml"));
-            Parent root = loader.load();
-            
-            CadastroTutorController controller = loader.getController();
-            controller.setTutorForEdit(selectedTutor);
-            
-            Stage editStage = new Stage();
-            editStage.setScene(new Scene(root));
-            editStage.setTitle("Editar Tutor");
-            editStage.initModality(Modality.APPLICATION_MODAL);
-            editStage.initOwner(currentStage);
-            
-            currentStage.hide();
-            
-            editStage.setOnHidden(e -> {
-                currentStage.show();
-                refreshTables();
-            });
-            
-            editStage.showAndWait();
-            
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
+    Tutor selectedTutor = tutorTable.getSelectionModel().getSelectedItem();
+    
+    if (selectedTutor == null) {
+        showAlert("Erro", "Selecione um tutor para editar", Alert.AlertType.WARNING);
+        return;
     }
     
-    private void handleEditPet() {
-        PetWithTutor selectedPet = petTable.getSelectionModel().getSelectedItem();
+    try {
+        FXMLLoader loader = new FXMLLoader(getClass().getResource("/View/CadastroTutor.fxml"));
+        Parent root = loader.load();
         
-        if (selectedPet == null) {
-            showAlert("Erro", "Selecione um pet para editar", Alert.AlertType.WARNING);
-            return;
-        }
+        CadastroTutorController controller = loader.getController();
+        controller.setTutorForEdit(selectedTutor);
         
-        try {
-            FXMLLoader loader = new FXMLLoader(getClass().getResource("/View/CadastroPet.fxml"));
-            Parent root = loader.load();
-            
-            CadastroPetController controller = loader.getController();
-            Pet pet = new Pet(
-                selectedPet.getId(),
-                selectedPet.getNome(),
-                selectedPet.getDataNasc(),
-                selectedPet.getId_tutor(),
-                selectedPet.getRaca(),
-                selectedPet.getEspecie(),
-                selectedPet.getSexo(),
-                selectedPet.getCor(),
-                selectedPet.getObs(),
-                selectedPet.getId_plano(),
-                selectedPet.getIdade()
-            );
-            controller.setPetForEdit(pet);
-            
-            Stage editStage = new Stage();
-            editStage.setScene(new Scene(root));
-            editStage.setTitle("Editar Pet");
-            editStage.initModality(Modality.APPLICATION_MODAL);
-            editStage.initOwner(currentStage);
-            
-            currentStage.hide();
-            
-            editStage.setOnHidden(e -> {
-                currentStage.show();
-                refreshTables();
-            });
-            
-            editStage.showAndWait();
-            
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
+        // Get the current stage
+        Stage currentStage = (Stage) tutorTable.getScene().getWindow();
+        
+        // Set the new scene
+        currentStage.setScene(new Scene(root));
+        currentStage.setTitle("Editar Tutor");
+        
+    } catch (IOException e) {
+        e.printStackTrace();
+        showAlert("Erro", "Não foi possível carregar a tela de edição", Alert.AlertType.ERROR);
     }
+}
+    
+    private void handleEditPet() {
+    PetWithTutor selectedPet = petTable.getSelectionModel().getSelectedItem();
+    
+    if (selectedPet == null) {
+        showAlert("Erro", "Selecione um pet para editar", Alert.AlertType.WARNING);
+        return;
+    }
+    
+    try {
+        FXMLLoader loader = new FXMLLoader(getClass().getResource("/View/CadastroPet.fxml"));
+        Parent root = loader.load();
+        
+        CadastroPetController controller = loader.getController();
+        Pet pet = new Pet(
+            selectedPet.getId(),
+            selectedPet.getNome(),
+            selectedPet.getDataNasc(),
+            selectedPet.getId_tutor(),
+            selectedPet.getRaca(),
+            selectedPet.getEspecie(),
+            selectedPet.getSexo(),
+            selectedPet.getCor(),
+            selectedPet.getObs(),
+            selectedPet.getId_plano(),
+            selectedPet.getIdade()
+        );
+        controller.setPetForEdit(pet);
+        
+        // Get the current stage
+        Stage currentStage = (Stage) petTable.getScene().getWindow();
+        
+        // Set the new scene
+        currentStage.setScene(new Scene(root));
+        currentStage.setTitle("Editar Pet");
+        
+    } catch (IOException e) {
+        e.printStackTrace();
+    }
+}
     
     @FXML
     private void handleDelete() {
