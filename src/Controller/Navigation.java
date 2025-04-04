@@ -32,6 +32,10 @@ public class Navigation {
         loadView("/View/Consulta.fxml", "Consulta", event);
     }
     
+    public void abrirCadastroAgendamento(ActionEvent event) throws IOException {
+        loadView("/View/CadastroAgendamento.fxml", "Cadastro Agendamento", event);
+    }
+    
     private void loadView(String fxmlPath, String title, ActionEvent event) throws IOException {
         // Get the current stage from the event source
         Stage currentStage = (Stage) ((Node) event.getSource()).getScene().getWindow();

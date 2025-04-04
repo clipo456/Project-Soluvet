@@ -15,6 +15,8 @@ public class Pet {
     private String id_plano;
     private int idade; 
 
+    public Pet(){};
+    
     public Pet(int id, String nome, LocalDate dataNasc, int id_tutor, String raca, 
               String especie, char sexo, String cor, String obs, String id_plano, int idade) {
         this.id = id;
