@@ -1,61 +1,73 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/javafx/FXMLController.java to edit this template
- */
 package Controller;
 
-import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
-import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
-import javafx.scene.Node;
-import javafx.scene.Parent;
-import javafx.scene.Scene;
-import javafx.scene.layout.FlowPane;
-import javafx.scene.layout.StackPane;
-import javafx.scene.layout.VBox;
-import javafx.scene.paint.Color;
-import javafx.scene.shape.Rectangle;
-import javafx.scene.text.Text;
-import javafx.stage.Stage;
-
-import java.io.IOException;
-import java.net.URL;
-import java.time.ZonedDateTime;
+import javafx.scene.layout.*;
+import javafx.scene.text.*;
+import java.time.*;
 import java.util.*;
 import java.time.format.TextStyle;
-import java.util.Locale;
-
-import Model.DBConnection; 
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
-import java.time.LocalDate;
-import java.time.LocalTime;
-import java.time.ZoneId;
-import javafx.geometry.Insets;
-import javafx.geometry.Pos;
+import Model.DBConnection;
+import java.net.URL;
+import java.sql.*;
+import java.util.function.Consumer;
+import javafx.application.Platform;
+import javafx.event.ActionEvent;
+import javafx.geometry.*;
+import javafx.scene.paint.Color;
+import javafx.scene.shape.Rectangle;
 
 public class CalendarioController implements Initializable {
-
-    ZonedDateTime dateFocus;
-    ZonedDateTime today;
-
-    @FXML
-    private Text year;
-
-    @FXML
-    private Text month;
-
-    @FXML
-    private FlowPane calendar;
+    private ZonedDateTime dateFocus;
+    private ZonedDateTime today;
+    
+    @FXML private Text year;
+    @FXML private Text month;
+    @FXML private FlowPane calendar;
+    
+    private final List<Consumer<?>> eventHandlers = new ArrayList<>();
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
         dateFocus = ZonedDateTime.now(ZoneId.of("America/Sao_Paulo"));
         today = ZonedDateTime.now(ZoneId.of("America/Sao_Paulo"));
         drawCalendar();
+        
+        // Subscribe to events
+        Consumer<AppointmentEvents.CalendarRefreshNeeded> refreshHandler = this::handleRefreshEvent;
+        Consumer<AppointmentEvents.AppointmentDeleted> deleteHandler = this::handleAppointmentDeleted;
+        
+        EventBus.getInstance().subscribe(AppointmentEvents.CalendarRefreshNeeded.class, refreshHandler);
+        EventBus.getInstance().subscribe(AppointmentEvents.AppointmentDeleted.class, deleteHandler);
+        
+        eventHandlers.add(refreshHandler);
+        eventHandlers.add(deleteHandler);
+    }
+    
+    private void handleRefreshEvent(AppointmentEvents.CalendarRefreshNeeded event) {
+        Platform.runLater(() -> {
+            if (event.getForDate() != null && !dateFocus.toLocalDate().equals(event.getForDate())) {
+                dateFocus = ZonedDateTime.of(event.getForDate(), 
+                    dateFocus.toLocalTime(), dateFocus.getZone());
+            }
+            refreshCalendar();
+        });
+    }
+    
+    private void handleAppointmentDeleted(AppointmentEvents.AppointmentDeleted event) {
+        Platform.runLater(this::refreshCalendar);
+    }
+    
+    public void refreshCalendar() {
+        calendar.getChildren().clear();
+        drawCalendar();
+    }
+    
+    public void cleanup() {
+        EventBus.getInstance().unsubscribe(AppointmentEvents.CalendarRefreshNeeded.class, 
+            (Consumer<AppointmentEvents.CalendarRefreshNeeded>)eventHandlers.get(0));
+        EventBus.getInstance().unsubscribe(AppointmentEvents.AppointmentDeleted.class, 
+            (Consumer<AppointmentEvents.AppointmentDeleted>)eventHandlers.get(1));
     }
 
     @FXML

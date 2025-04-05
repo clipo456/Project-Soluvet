@@ -102,7 +102,7 @@
       <Rectangle fill="#ebebfb" height="570.0" layoutY="150.0" smooth="false" stroke="#e8efe4" strokeWidth="0.5" width="1080.0" />
       <Rectangle arcHeight="15.0" arcWidth="15.0" fill="#a6c795" height="540.0" layoutX="280.0" layoutY="164.0" opacity="0.5" stroke="#575e58" strokeLineCap="ROUND" strokeLineJoin="ROUND" strokeWidth="0.5" width="784.0" />
       <Rectangle arcHeight="15.0" arcWidth="15.0" fill="#a6c795" height="540.0" layoutX="17.0" layoutY="164.0" opacity="0.5" stroke="#575e58" strokeLineCap="ROUND" strokeLineJoin="ROUND" strokeWidth="0.5" width="255.0" />
-      <Label layoutX="32.0" layoutY="151.0" prefHeight="75.0" prefWidth="225.0" text="Agendamentos do dia" textAlignment="CENTER" wrapText="true">
+      <Label layoutX="65.0" layoutY="163.0" prefHeight="42.0" prefWidth="158.0" text="Agendamentos" textAlignment="CENTER" wrapText="true">
          <font>
             <Font name="Segoe UI Semibold" size="22.0" />
          </font>
@@ -110,7 +110,7 @@
       <ListView fx:id="appointmentListView" blendMode="DARKEN" layoutX="39.0" layoutY="203.0" onMouseClicked="#onAppointmentClicked" prefHeight="492.0" prefWidth="209.0" />
       <AnchorPane layoutX="296.0" layoutY="184.0" maxHeight="500.0" maxWidth="750.0" minHeight="500.0" minWidth="750.0" prefHeight="500.0" prefWidth="750.0" xmlns:fx="http://javafx.com/fxml/1">
         <fx:include source="Calendario.fxml" />
-         <DatePicker blendMode="DARKEN" layoutX="24.0" layoutY="14.0" />
+         <DatePicker fx:id="datePicker" blendMode="DARKEN" layoutX="24.0" layoutY="14.0" />
          <Button fx:id="btAgendamento" layoutX="696.0" maxHeight="50.0" maxWidth="50.0" minHeight="50.0" minWidth="50.0" mnemonicParsing="false" onAction="#abrirCadastroAgendamento" prefHeight="50.0" prefWidth="50.0">
             <graphic>
                <ImageView fitHeight="46.0" fitWidth="53.0" pickOnBounds="true" preserveRatio="true">
