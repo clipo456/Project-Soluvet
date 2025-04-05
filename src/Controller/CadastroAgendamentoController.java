@@ -11,6 +11,7 @@ import java.time.LocalDate;
 import java.time.LocalTime;
 import java.util.List;
 import java.util.ResourceBundle;
+import javafx.application.Platform;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -55,28 +56,28 @@ public class CadastroAgendamentoController extends Navigation implements Initial
     @Override
     public void initialize(URL url, ResourceBundle rb) {
         try {
-            // Initialize DAOs
+            // Initialize with empty list first
+            agendamentosList = FXCollections.observableArrayList();
+            tableView.setItems(agendamentosList);
+            
+            // Configure table columns
+            configureTableColumns();
+            
+            // Initialize DAOs first
             agendamentoDAO = new AgendamentoDAO();
             petDAO = new PetDAO();
             planoDAO = new PlanoDAO();
             tutorDAO = new TutorDAO();
 
-            // Initialize the observable list
-            agendamentosList = FXCollections.observableArrayList();
-            tableView.setItems(agendamentosList);
-
-            // Configure table columns
-            configureTableColumns();
-
             // Initialize components
             configurarMenus();
             configurarHorarios();
             configurarDatePicker();
-            
+
             // Load appointments
             carregarAgendamentos();
 
-            // Set up table selection listener
+            // Set up table selection listener LAST
             configureTableSelection();
 
         } catch (Exception e) {
@@ -128,21 +129,31 @@ public class CadastroAgendamentoController extends Navigation implements Initial
     }
 
     private void configureTableSelection() {
+        // Single selection listener
         tableView.getSelectionModel().selectedItemProperty().addListener(
             (obs, oldSelection, newSelection) -> {
-                if (newSelection != null && !agendamentosList.isEmpty()) {
-                    selecionarAgendamento(newSelection);
+                if (newSelection != null) {
+                    Platform.runLater(() -> selecionarAgendamento(newSelection));
                 }
             });
 
+        // More robust row factory
         tableView.setRowFactory(tv -> {
-            TableRow<Agendamento> row = new TableRow<>();
-            row.setOnMouseClicked(event -> {
-                if (!row.isEmpty() && event.getClickCount() == 1) {
-                    tableView.getSelectionModel().select(row.getIndex());
-                    selecionarAgendamento(row.getItem());
+            TableRow<Agendamento> row = new TableRow<>() {
+                @Override
+                protected void updateItem(Agendamento item, boolean empty) {
+                    super.updateItem(item, empty);
+                    if (empty || item == null) {
+                        setOnMouseClicked(null);
+                    } else {
+                        setOnMouseClicked(event -> {
+                            if (event.getClickCount() == 1 && !isEmpty()) {
+                                tableView.getSelectionModel().select(getIndex());
+                            }
+                        });
+                    }
                 }
-            });
+            };
             return row;
         });
     }
@@ -244,18 +255,22 @@ public class CadastroAgendamentoController extends Navigation implements Initial
     private void carregarAgendamentos() {
         try {
             List<Agendamento> agendamentos = agendamentoDAO.listarAgendamentos();
-            if (agendamentosList == null) {
-                agendamentosList = FXCollections.observableArrayList();
-                tableView.setItems(agendamentosList);
-            }
-            agendamentosList.setAll(agendamentos);
+            Platform.runLater(() -> {
+                // Clear selection first
+                tableView.getSelectionModel().clearSelection();
 
-            if (agendamentos.isEmpty()) {
-                limparCampos();
-            }
+                // Update items
+                agendamentosList.setAll(agendamentos);
+
+                if (agendamentos.isEmpty()) {
+                    limparCampos();
+                }
+            });
         } catch (SQLException e) {
-            showErrorAlert("Erro ao Carregar Dados", "Não foi possível carregar os agendamentos: " + e.getMessage());
-            limparCampos();
+            Platform.runLater(() -> {
+                showErrorAlert("Erro ao Carregar Dados", "Não foi possível carregar os agendamentos: " + e.getMessage());
+                limparCampos();
+            });
         }
     }
 
