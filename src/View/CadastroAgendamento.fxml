@@ -5,7 +5,6 @@
 <?import javafx.scene.control.DatePicker?>
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.MenuButton?>
-<?import javafx.scene.control.MenuItem?>
 <?import javafx.scene.control.TableColumn?>
 <?import javafx.scene.control.TableView?>
 <?import javafx.scene.effect.DropShadow?>
@@ -109,12 +108,7 @@
             <Font name="Segoe UI Semibold" size="16.0" />
          </font>
       </Label>
-      <Label layoutX="566.0" layoutY="509.0" text="PET">
-         <font>
-            <Font name="Segoe UI Semibold" size="16.0" />
-         </font>
-      </Label>
-      <Label layoutX="168.0" layoutY="509.0" text="Plano">
+      <Label layoutX="348.0" layoutY="509.0" text="PET">
          <font>
             <Font name="Segoe UI Semibold" size="16.0" />
          </font>
@@ -137,20 +131,18 @@
             <Font name="Segoe UI Semibold" size="16.0" />
          </font>
       </Label>
-      <MenuButton fx:id="planoMenu" layoutX="168.0" layoutY="535.0" mnemonicParsing="false" text="Plano">
-    </MenuButton>
     <MenuButton fx:id="horarioMenu" layoutX="38.0" layoutY="535.0" mnemonicParsing="false" popupSide="RIGHT" text="00:00">
         <!-- Remove the items tags completely -->
     </MenuButton>
 
-    <MenuButton fx:id="petMenu" layoutX="566.0" layoutY="535.0" mnemonicParsing="false" text="PET">
+    <MenuButton fx:id="petMenu" layoutX="348.0" layoutY="535.0" mnemonicParsing="false" text="PET">
         <!-- Remove the items tags completely -->
     </MenuButton>
 
-    <MenuButton fx:id="tutorMenu" layoutX="356.0" layoutY="535.0" mnemonicParsing="false" text="Tutor">
+    <MenuButton fx:id="tutorMenu" layoutX="152.0" layoutY="535.0" mnemonicParsing="false" text="Tutor">
         <!-- Remove the items tags completely -->
     </MenuButton>
-      <Label layoutX="356.0" layoutY="509.0" text="Tutor">
+      <Label layoutX="152.0" layoutY="509.0" text="Tutor">
          <font>
             <Font name="Segoe UI Semibold" size="16.0" />
          </font>

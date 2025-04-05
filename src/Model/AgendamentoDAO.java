@@ -22,15 +22,29 @@ public class AgendamentoDAO {
 
     // Create
     public void adicionarAgendamento(Agendamento agendamento) throws SQLException {
-        String sql = "INSERT INTO agendamentos (data_agendamento, hora, id_plano, id_animal, id_tutor) VALUES (?, ?, ?, ?, ?)";
-        
+        // Get the pet's plano ID first
+        String petPlanoQuery = "SELECT id_plano FROM cad_animal WHERE id_animal = ?";
+        int idPlano = 0;
+
+        try (PreparedStatement petStmt = connection.prepareStatement(petPlanoQuery)) {
+            petStmt.setInt(1, agendamento.getIdAnimal());
+            try (ResultSet rs = petStmt.executeQuery()) {
+                if (rs.next()) {
+                    idPlano = rs.getInt("id_plano");
+                }
+            }
+        }
+
+        String sql = "INSERT INTO agendamentos (data_agendamento, hora, id_plano, id_animal, id_tutor) " +
+                     "VALUES (?, ?, ?, ?, ?)";
+
         try (PreparedStatement stmt = connection.prepareStatement(sql)) {
             stmt.setDate(1, java.sql.Date.valueOf(agendamento.getDataAgendamento()));
             stmt.setTime(2, Time.valueOf(agendamento.getHora()));
-            stmt.setInt(3, agendamento.getIdPlano());
+            stmt.setInt(3, idPlano); // Use the pet's plano
             stmt.setInt(4, agendamento.getIdAnimal());
             stmt.setInt(5, agendamento.getIdTutor());
-            
+
             stmt.execute();
         } catch (SQLException e) {
             throw new SQLException("Erro ao adicionar agendamento: " + e.getMessage());
@@ -67,16 +81,30 @@ public class AgendamentoDAO {
 
     // Update
     public void atualizarAgendamento(Agendamento agendamento) throws SQLException {
-        String sql = "UPDATE agendamentos SET data_agendamento = ?, hora = ?, id_plano = ?, id_animal = ?, id_tutor = ? WHERE id_agenda = ?";
-        
+        // Get the pet's plano ID first
+        String petPlanoQuery = "SELECT id_plano FROM cad_animal WHERE id_animal = ?";
+        int idPlano = 0;
+
+        try (PreparedStatement petStmt = connection.prepareStatement(petPlanoQuery)) {
+            petStmt.setInt(1, agendamento.getIdAnimal());
+            try (ResultSet rs = petStmt.executeQuery()) {
+                if (rs.next()) {
+                    idPlano = rs.getInt("id_plano");
+                }
+            }
+        }
+
+        String sql = "UPDATE agendamentos SET data_agendamento = ?, hora = ?, " +
+                     "id_plano = ?, id_animal = ?, id_tutor = ? WHERE id_agenda = ?";
+
         try (PreparedStatement stmt = connection.prepareStatement(sql)) {
             stmt.setDate(1, java.sql.Date.valueOf(agendamento.getDataAgendamento()));
             stmt.setTime(2, Time.valueOf(agendamento.getHora()));
-            stmt.setInt(3, agendamento.getIdPlano());
+            stmt.setInt(3, idPlano); // Use the pet's plano
             stmt.setInt(4, agendamento.getIdAnimal());
             stmt.setInt(5, agendamento.getIdTutor());
             stmt.setInt(6, agendamento.getIdAgenda());
-            
+
             stmt.execute();
         } catch (SQLException e) {
             throw new SQLException("Erro ao atualizar agendamento: " + e.getMessage());

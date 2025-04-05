@@ -36,7 +36,6 @@ public class CadastroAgendamentoController extends Navigation implements Initial
     @FXML private Button btnAlterar;
     @FXML private DatePicker dataPicker;
     @FXML private MenuButton horarioMenu;
-    @FXML private MenuButton planoMenu;
     @FXML private MenuButton petMenu;
     @FXML private MenuButton tutorMenu;
     @FXML private TableView<Agendamento> tableView;
@@ -119,9 +118,9 @@ public class CadastroAgendamentoController extends Navigation implements Initial
 
         planoAgendamento.setCellValueFactory(cellData -> {
             try {
-                int idPlano = cellData.getValue().getIdPlano();
-                Model.Plano plano = planoDAO.getPlanoById(idPlano);
-                return new SimpleStringProperty(plano != null ? plano.getNome() : "");
+                int idAnimal = cellData.getValue().getIdAnimal();
+                Model.Pet pet = petDAO.getPetById(idAnimal);
+                return new SimpleStringProperty(pet != null ? pet.getId_plano() : "");
             } catch (Exception e) {
                 return new SimpleStringProperty("");
             }
@@ -179,19 +178,6 @@ public class CadastroAgendamentoController extends Navigation implements Initial
         petMenu.setText("PET");
         petMenu.setDisable(true);
 
-        // Configure plano menu
-        planoMenu.getItems().clear();
-        planoMenu.setText("Plano");
-        planoDAO.getPlanos().forEach(plano -> {
-            MenuItem item = new MenuItem(plano.getNome());
-            item.setOnAction(e -> {
-                planoMenu.setText(plano.getNome());
-                if (agendamentoSelecionado != null) {
-                    agendamentoSelecionado.setIdPlano(plano.getId_plano());
-                }
-            });
-            planoMenu.getItems().add(item);
-        });
     }
 
     private void atualizarPetsPorTutor(int idTutor) {
@@ -298,11 +284,6 @@ public class CadastroAgendamentoController extends Navigation implements Initial
                 petMenu.setText(pet.getNome());
             }
 
-            // Set plano
-            Model.Plano plano = planoDAO.getPlanoById(agendamento.getIdPlano());
-            if (plano != null) {
-                planoMenu.setText(plano.getNome());
-            }
         } catch (Exception e) {
             showErrorAlert("Erro", "Não foi possível carregar os dados do agendamento");
             limparCampos();
@@ -335,22 +316,6 @@ public class CadastroAgendamentoController extends Navigation implements Initial
                 }
             }
 
-            // Get selected plano
-            String planoSelecionado = planoMenu.getText();
-            if (!planoSelecionado.equals("Plano")) {
-                try {
-                    Model.Plano plano = planoDAO.getPlanos().stream()
-                        .filter(p -> p.getNome().equals(planoSelecionado))
-                        .findFirst()
-                        .orElse(null);
-                    if (plano != null) {
-                        agendamento.setIdPlano(plano.getId_plano());
-                    }
-                } catch (Exception e) {
-                    showErrorAlert("Erro", "Não foi possível verificar o plano selecionado");
-                    return;
-                }
-            }
 
             try {
                 if (agendamentoDAO.existeAgendamentoNoMesmoHorario(
@@ -408,22 +373,6 @@ public class CadastroAgendamentoController extends Navigation implements Initial
                 }
             }
 
-            // Get selected plano
-            String planoSelecionado = planoMenu.getText();
-            if (!planoSelecionado.equals("Plano")) {
-                try {
-                    Model.Plano plano = planoDAO.getPlanos().stream()
-                        .filter(p -> p.getNome().equals(planoSelecionado))
-                        .findFirst()
-                        .orElse(null);
-                    if (plano != null) {
-                        agendamentoSelecionado.setIdPlano(plano.getId_plano());
-                    }
-                } catch (Exception e) {
-                    showErrorAlert("Erro", "Não foi possível verificar o plano selecionado");
-                    return;
-                }
-            }
 
             try {
                 if (agendamentoDAO.existeAgendamentoNoMesmoHorario(
@@ -474,7 +423,6 @@ public class CadastroAgendamentoController extends Navigation implements Initial
         petMenu.setText("PET");
         petMenu.setDisable(true);
         tutorMenu.setText("Tutor");
-        planoMenu.setText("Plano");
         agendamentoSelecionado = null;
         if (tableView != null) {
             tableView.getSelectionModel().clearSelection();
@@ -501,11 +449,7 @@ public class CadastroAgendamentoController extends Navigation implements Initial
             showWarningAlert("Validação", "Selecione um PET");
             return false;
         }
-        
-        if (planoMenu.getText().equals("Plano")) {
-            showWarningAlert("Validação", "Selecione um plano");
-            return false;
-        }
+       
         
         return true;
     }
