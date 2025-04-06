@@ -1,52 +1,82 @@
 package Controller;
 
-import java.io.IOException;
+import Model.DBConnection;
 import java.net.URL;
-import java.util.ResourceBundle;
-import java.util.HashMap;
-import javafx.fxml.Initializable;
-import javafx.scene.control.ListView;
-import javafx.application.Platform;
-import javafx.collections.FXCollections;
-import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
+import javafx.fxml.Initializable;
 import javafx.scene.control.*;
-import javafx.scene.input.MouseEvent;
+import javafx.collections.*;
 import java.sql.*;
-import javafx.animation.KeyFrame;
-import javafx.animation.Timeline;
+import javafx.animation.*;
 import javafx.util.Duration;
-import java.time.LocalDate;
-import java.time.LocalTime;
-import java.time.format.DateTimeFormatter;
-import java.util.Locale;
-import javafx.event.ActionEvent;
-import javafx.fxml.FXMLLoader;
-import javafx.scene.Node;
-import javafx.scene.Parent;
-import javafx.scene.Scene;
-import javafx.stage.Stage;
+import java.time.*;
+import java.time.format.*;
+import java.util.*;
+import javafx.application.Platform;
+import javafx.scene.input.MouseEvent;
 
 public class HomeController extends Navigation implements Initializable {
-    private final Model.DBConnection dbConnection = new Model.DBConnection();
+    private final DBConnection dbConnection = new DBConnection();
     private final Connection conn = dbConnection.getConnection();
-    
-    // Formatter for time display (HH:mm)
     private final DateTimeFormatter timeFormatter = DateTimeFormatter.ofPattern("HH:mm");
-    // Brazilian Portuguese locale
-    private final Locale ptBrLocale = new Locale("pt", "BR");
-
-    @FXML
-    private ListView<String> appointmentListView;
-
+    
+    @FXML private ListView<String> appointmentListView;
+    @FXML private DatePicker datePicker;
+    
     private final ObservableList<String> appointments = FXCollections.observableArrayList();
     private final HashMap<String, String> appointmentIdMap = new HashMap<>();
 
     @Override
     public void initialize(URL url, ResourceBundle rb) {
         setupListView();
-        refreshAppointments();
+        initializeDatePicker();
+        refreshAppointments(datePicker.getValue());
         startAutoRefresh();
+        
+        // Subscribe to events
+        EventBus.getInstance().subscribe(AppointmentEvents.CalendarRefreshNeeded.class, 
+            e -> refreshAppointments(datePicker.getValue()));
+    }
+
+    private void initializeDatePicker() {
+        datePicker.setValue(LocalDate.now());
+        datePicker.valueProperty().addListener((obs, oldDate, newDate) -> {
+            refreshAppointments(newDate);
+        });
+    }
+
+    private void deleteAppointment(String appointmentId) {
+        Alert confirmation = new Alert(Alert.AlertType.CONFIRMATION);
+        confirmation.setTitle("Confirmar Exclusão");
+        confirmation.setHeaderText("Tem certeza que deseja excluir este agendamento?");
+        confirmation.setContentText("Esta ação não pode ser desfeita.");
+
+        confirmation.showAndWait().ifPresent(response -> {
+            if (response == ButtonType.OK) {
+                String query = "UPDATE agendamentos SET isDeleted = 1 WHERE id_agenda = ?";
+                try (PreparedStatement stmt = conn.prepareStatement(query)) {
+                    stmt.setString(1, appointmentId);
+                    int rowsAffected = stmt.executeUpdate();
+                    if (rowsAffected > 0) {
+                        // Publish events
+                        EventBus.getInstance().publish(
+                            new AppointmentEvents.AppointmentDeleted(Integer.parseInt(appointmentId))
+                        );
+                        EventBus.getInstance().publish(
+                            new AppointmentEvents.CalendarRefreshNeeded(datePicker.getValue())
+                        );
+                        
+                        Platform.runLater(() -> {
+                            refreshAppointments(datePicker.getValue());
+                            showAlert("Sucesso", "Agendamento excluído com sucesso!", Alert.AlertType.INFORMATION);
+                        });
+                    }
+                } catch (SQLException e) {
+                    showAlert("Erro", "Falha ao excluir agendamento: " + e.getMessage(), Alert.AlertType.ERROR);
+                    e.printStackTrace();
+                }
+            }
+        });
     }
 
     private void setupListView() {
@@ -77,19 +107,18 @@ public class HomeController extends Navigation implements Initializable {
 
     private void startAutoRefresh() {
         Timeline timeline = new Timeline(
-            new KeyFrame(Duration.seconds(30), e -> refreshAppointments()
+            new KeyFrame(Duration.seconds(30), e -> refreshAppointments(datePicker.getValue())
         ));
         timeline.setCycleCount(Timeline.INDEFINITE);
         timeline.play();
     }
 
-    private void refreshAppointments() {
+    private void refreshAppointments(LocalDate date) {
         if (conn == null) {
             showAlert("Erro", "Conexão com o banco de dados não foi estabelecida.", Alert.AlertType.ERROR);
             return;
         }
 
-        String currentDate = LocalDate.now().toString();
         String query = "SELECT d.id_agenda, d.hora, d.data_agendamento, p.nome AS nome_plano, " +
                       "a.nome AS nome_animal, t.nome AS nome_tutor " +
                       "FROM agendamentos d " +
@@ -97,10 +126,10 @@ public class HomeController extends Navigation implements Initializable {
                       "JOIN cad_animal a ON d.id_animal = a.id_animal " +
                       "JOIN cad_tutor t ON d.id_tutor = t.id_tutor " +
                       "WHERE d.isDeleted = 0 AND d.data_agendamento = ? " +
-                      "ORDER BY d.hora";  // Order by time for better visualization
+                      "ORDER BY d.hora";
 
         try (PreparedStatement stmt = conn.prepareStatement(query)) {
-            stmt.setString(1, currentDate);
+            stmt.setDate(1, java.sql.Date.valueOf(date));
             ResultSet rs = stmt.executeQuery();
 
             ObservableList<String> newAppointments = FXCollections.observableArrayList();
@@ -116,15 +145,15 @@ public class HomeController extends Navigation implements Initializable {
                 String formattedTime = time.format(timeFormatter);
                 String description = String.format("%s - %s (%s) - %s", 
                     formattedTime, animal, plan, tutor);
-                
+
                 newAppointments.add(description);
                 appointmentIdMap.put(description, appointmentId);
             }
-            
+
             Platform.runLater(() -> {
                 appointments.setAll(newAppointments);
                 if (newAppointments.isEmpty()) {
-                    appointments.add("Nenhum agendamento para hoje");
+                    appointments.add("Nenhum agendamento para " + date.format(DateTimeFormatter.ofPattern("dd/MM/yyyy")));
                 }
             });
 
@@ -177,31 +206,7 @@ public class HomeController extends Navigation implements Initializable {
         showAlert("Editar", "Funcionalidade de edição será implementada aqui", Alert.AlertType.INFORMATION);
     }
 
-    private void deleteAppointment(String appointmentId) {
-        Alert confirmation = new Alert(Alert.AlertType.CONFIRMATION);
-        confirmation.setTitle("Confirmar Exclusão");
-        confirmation.setHeaderText("Tem certeza que deseja excluir este agendamento?");
-        confirmation.setContentText("Esta ação não pode ser desfeita.");
-
-        confirmation.showAndWait().ifPresent(response -> {
-            if (response == ButtonType.OK) {
-                String query = "UPDATE agendamentos SET isDeleted = 1 WHERE id_agenda = ?";
-                try (PreparedStatement stmt = conn.prepareStatement(query)) {
-                    stmt.setString(1, appointmentId);
-                    int rowsAffected = stmt.executeUpdate();
-                    if (rowsAffected > 0) {
-                        Platform.runLater(() -> {
-                            refreshAppointments();
-                            showAlert("Sucesso", "Agendamento excluído com sucesso!", Alert.AlertType.INFORMATION);
-                        });
-                    }
-                } catch (SQLException e) {
-                    showAlert("Erro", "Falha ao excluir agendamento: " + e.getMessage(), Alert.AlertType.ERROR);
-                    e.printStackTrace();
-                }
-            }
-        });
-    }
+    
 
     private void showAlert(String title, String message, Alert.AlertType type) {
         Platform.runLater(() -> {
@@ -212,7 +217,6 @@ public class HomeController extends Navigation implements Initializable {
             alert.showAndWait();
         });
     }
-    
     
     
 }

@@ -120,17 +120,15 @@ public class TutorDAO {
     }
 
     public Tutor getTutorById(int id) {
-        DBConnection dbConnection = new DBConnection();
-        Connection connection = dbConnection.getConnection();
+    String query = "SELECT id_tutor, nome, cpf, telefone, data_nascimento, " +
+                  "rua, cidade, bairro, cep, complemento, numero " +
+                  "FROM cad_tutor WHERE id_tutor = ? AND isDeleted = 0";
+    
+    try (Connection connection = new DBConnection().getConnection();
+         PreparedStatement statement = connection.prepareStatement(query)) {
         
-        String query = "SELECT id_tutor, nome, cpf, telefone, data_nascimento, rua, cidade, bairro, cep, complemento, numero " +
-                      "FROM cad_tutor WHERE id_tutor = ? AND isDeleted = 0";
-        
-        try {
-            PreparedStatement statement = connection.prepareStatement(query);
-            statement.setInt(1, id);
-            ResultSet resultSet = statement.executeQuery();
-            
+        statement.setInt(1, id);
+        try (ResultSet resultSet = statement.executeQuery()) {
             if (resultSet.next()) {
                 return new Tutor(
                     resultSet.getInt("id_tutor"),
@@ -146,10 +144,12 @@ public class TutorDAO {
                     resultSet.getString("numero")
                 );
             }
-        } catch (SQLException e) {
-            e.printStackTrace();
         }
-        
-        return null;
+    } catch (SQLException e) {
+        e.printStackTrace();
     }
+    return null;
+}
+    
+    
 }

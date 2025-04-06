@@ -1,0 +1,183 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import java.net.URL?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.DatePicker?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.MenuButton?>
+<?import javafx.scene.control.TableColumn?>
+<?import javafx.scene.control.TableView?>
+<?import javafx.scene.effect.DropShadow?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.shape.Rectangle?>
+<?import javafx.scene.text.Font?>
+
+<AnchorPane id="AnchorPane" maxHeight="720.0" maxWidth="1080.0" minHeight="720.0" minWidth="1080.0" prefHeight="720.0" prefWidth="1080.0" styleClass="mainFxmlClass" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Controller.CadastroAgendamentoController">
+    <stylesheets>
+        <URL value="@cadastroagendamento.css" />
+    </stylesheets>
+   <children>
+      <Rectangle fill="#a6c795" height="150.0" layoutX="-1.0" layoutY="-6.0" opacity="0.6" smooth="false" stroke="#575e58" strokeWidth="0.5" width="1080.0" />
+      <Button fx:id="btnHome" layoutX="114.0" layoutY="34.0" mnemonicParsing="false" onAction="#abrirHome" prefHeight="80.0" prefWidth="80.0">
+         <graphic>
+            <ImageView fitHeight="64.0" fitWidth="60.0" pickOnBounds="true" preserveRatio="true">
+               <image>
+                  <Image url="@../Img/home.png" />
+               </image>
+            </ImageView>
+         </graphic>
+         <effect>
+            <DropShadow height="5.0" radius="2.0" width="5.0" />
+         </effect>
+      </Button>
+      <Button disable="true" layoutX="248.0" layoutY="34.0" mnemonicParsing="false" onAction="#abrirCadastroTutor" prefHeight="80.0" prefWidth="200.0" text="Cadastros">
+         <graphic>
+            <ImageView fitHeight="43.0" fitWidth="40.0" pickOnBounds="true" preserveRatio="true">
+               <image>
+                  <Image url="@../Img/cadastro.png" />
+               </image>
+            </ImageView>
+         </graphic>
+         <font>
+            <Font name="Segoe UI Semibold" size="20.0" />
+         </font>
+         <effect>
+            <DropShadow height="5.0" radius="2.0" width="5.0" />
+         </effect>
+      </Button>
+      <Button layoutX="502.0" layoutY="34.0" mnemonicParsing="false" prefHeight="80.0" prefWidth="200.0" text="Banho e tosa">
+         <graphic>
+            <ImageView fitHeight="51.0" fitWidth="57.0" pickOnBounds="true" preserveRatio="true">
+               <image>
+                  <Image url="@../Img/banhoPet.png" />
+               </image>
+            </ImageView>
+         </graphic>
+         <font>
+            <Font name="Segoe UI Semibold" size="20.0" />
+         </font>
+         <effect>
+            <DropShadow height="5.0" radius="2.0" width="5.0" />
+         </effect>
+      </Button>
+      <Button layoutX="756.0" layoutY="34.0" mnemonicParsing="false" onAction="#abrirConsulta" prefHeight="80.0" prefWidth="200.0" text="Consultar">
+         <graphic>
+            <ImageView fitHeight="43.0" fitWidth="40.0" pickOnBounds="true" preserveRatio="true">
+               <image>
+                  <Image url="@../Img/Lupa.png" />
+               </image>
+            </ImageView>
+         </graphic>
+         <font>
+            <Font name="Segoe UI Semibold" size="20.0" />
+         </font>
+         <effect>
+            <DropShadow height="5.0" radius="2.0" width="5.0" />
+         </effect>
+      </Button>
+      <Button layoutX="1010.0" layoutY="10.0" mnemonicParsing="false" prefHeight="60.0" prefWidth="60.0">
+         <graphic>
+            <ImageView fitHeight="38.0" fitWidth="42.0" pickOnBounds="true" preserveRatio="true">
+               <image>
+                  <Image url="@../Img/config.png" />
+               </image>
+            </ImageView>
+         </graphic>
+         <effect>
+            <DropShadow height="5.0" radius="2.0" width="5.0" />
+         </effect>
+      </Button>
+      <Button layoutX="10.0" layoutY="10.0" maxHeight="50.0" maxWidth="50.0" minHeight="50.0" minWidth="50.0" mnemonicParsing="false" prefHeight="50.0" prefWidth="50.0">
+         <graphic>
+            <ImageView fitHeight="34.0" fitWidth="35.0" pickOnBounds="true" preserveRatio="true">
+               <image>
+                  <Image url="@../Img/back_arrow.png" />
+               </image>
+            </ImageView>
+         </graphic>
+         <effect>
+            <DropShadow height="5.0" radius="2.0" width="5.0" />
+         </effect>
+      </Button>
+      <Rectangle fill="#ebebfb" height="570.0" layoutX="-1.0" layoutY="144.0" smooth="false" stroke="#e8efe4" strokeWidth="0.5" width="1080.0" />
+      <Rectangle arcHeight="15.0" arcWidth="15.0" fill="#e5ebe6" height="536.0" layoutX="25.0" layoutY="164.0" opacity="0.5" stroke="#575e58" strokeLineCap="ROUND" strokeLineJoin="ROUND" strokeWidth="0.5" width="1026.0" />
+      <Label layoutX="38.0" layoutY="509.0" text="Horário">
+         <font>
+            <Font name="Segoe UI Semibold" size="16.0" />
+         </font>
+      </Label>
+      <Label layoutX="348.0" layoutY="509.0" text="PET">
+         <font>
+            <Font name="Segoe UI Semibold" size="16.0" />
+         </font>
+      </Label>
+      <TableView fx:id="tableView" layoutX="37.0" layoutY="248.0" prefHeight="246.0" prefWidth="1002.0">
+        <columns>
+            <TableColumn fx:id="horaAgendamento" prefWidth="143.20003662109377" text="Hora" />
+          <TableColumn fx:id="dataAgendamento" prefWidth="164.7999725341797" text="Data" />
+            <TableColumn fx:id="petAgendamento" minWidth="0.0" prefWidth="228.0" text="PET" />
+            <TableColumn fx:id="tutorAgendamento" prefWidth="225.60003662109375" text="Tutor" />
+            <TableColumn fx:id="planoAgendamento" minWidth="0.0" prefWidth="150.39996337890625" text="Plano" />
+        </columns>
+         <columnResizePolicy>
+            <TableView fx:constant="CONSTRAINED_RESIZE_POLICY" />
+         </columnResizePolicy>
+      </TableView>
+      <DatePicker fx:id="dataPicker" layoutX="38.0" layoutY="196.0" promptText="DD/MM/AAAA" />
+      <Label layoutX="38.0" layoutY="168.0" text="Data">
+         <font>
+            <Font name="Segoe UI Semibold" size="16.0" />
+         </font>
+      </Label>
+    <MenuButton fx:id="horarioMenu" layoutX="38.0" layoutY="535.0" mnemonicParsing="false" popupSide="RIGHT" text="00:00">
+        <!-- Remove the items tags completely -->
+    </MenuButton>
+
+    <MenuButton fx:id="petMenu" layoutX="348.0" layoutY="535.0" mnemonicParsing="false" text="PET">
+        <!-- Remove the items tags completely -->
+    </MenuButton>
+
+    <MenuButton fx:id="tutorMenu" layoutX="152.0" layoutY="535.0" mnemonicParsing="false" text="Tutor">
+        <!-- Remove the items tags completely -->
+    </MenuButton>
+      <Label layoutX="152.0" layoutY="509.0" text="Tutor">
+         <font>
+            <Font name="Segoe UI Semibold" size="16.0" />
+         </font>
+      </Label>
+      <Button fx:id="btnCadastrar" layoutX="38.0" layoutY="620.0" maxHeight="60.0" maxWidth="130.0" minHeight="60.0" minWidth="130.0" mnemonicParsing="false" onAction="#handleCadastrar" prefHeight="60.0" prefWidth="130.0" text="Cadastrar">
+         <font>
+            <Font name="Segoe UI Semibold" size="20.0" />
+         </font>
+         <effect>
+            <DropShadow height="5.0" radius="2.0" width="5.0" />
+         </effect>
+      </Button>
+      <Button fx:id="btnExcluir" layoutX="333.0" layoutY="620.0" maxHeight="60.0" maxWidth="130.0" minHeight="60.0" minWidth="130.0" mnemonicParsing="false" onAction="#handleExcluir" prefHeight="60.0" prefWidth="130.0" text="Excluir">
+         <font>
+            <Font name="Segoe UI Semibold" size="20.0" />
+         </font>
+         <effect>
+            <DropShadow height="5.0" radius="2.0" width="5.0" />
+         </effect>
+      </Button>
+      <Button fx:id="btnLimpar" layoutX="482.0" layoutY="620.0" maxHeight="60.0" maxWidth="130.0" minHeight="60.0" minWidth="130.0" mnemonicParsing="false" onAction="#handleLimpar" prefHeight="60.0" prefWidth="130.0" text="Limpar">
+         <font>
+            <Font name="Segoe UI Semibold" size="20.0" />
+         </font>
+         <effect>
+            <DropShadow height="5.0" radius="2.0" width="5.0" />
+         </effect>
+      </Button>
+      <Button fx:id="btnAlterar" layoutX="183.0" layoutY="620.0" maxHeight="60.0" maxWidth="130.0" minHeight="60.0" minWidth="130.0" mnemonicParsing="false" onAction="#handleAlterar" prefHeight="60.0" prefWidth="130.0" text="Alterar">
+         <font>
+            <Font name="Segoe UI Semibold" size="20.0" />
+         </font>
+         <effect>
+            <DropShadow height="5.0" radius="2.0" width="5.0" />
+         </effect>
+      </Button>
+   </children>
+</AnchorPane>

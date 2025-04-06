@@ -5,10 +5,17 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.time.LocalDate;
+import java.util.ArrayList;
+import java.util.List;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 
 public class PetDAO {
+    private Connection connection;
+
+    public PetDAO() {
+        this.connection = new DBConnection().getConnection();
+    }
     
     public static class PetWithTutor extends Pet {
         private String tutorNome;
@@ -172,38 +179,77 @@ public class PetDAO {
     }
 
     public Pet getPetById(int petId) {
-        String query = "SELECT a.id_animal, a.nome, a.data_nascimento, " +
-                     "a.id_tutor, a.raca, a.especie, a.sexo, a.cor, " +
-                     "a.obs_geral, p.nome AS plano_nome, " +
-                     "TIMESTAMPDIFF(YEAR, a.data_nascimento, CURDATE()) AS idade " +
-                     "FROM cad_animal a " +
-                     "JOIN planos p ON a.id_plano = p.id_plano " +
-                     "WHERE a.id_animal = ? AND a.isDeleted = 0";
+    String query = "SELECT a.id_animal, a.nome, a.data_nascimento, " +
+                 "a.id_tutor, a.raca, a.especie, a.sexo, a.cor, " +
+                 "a.obs_geral, p.nome AS plano_nome, " +
+                 "TIMESTAMPDIFF(YEAR, a.data_nascimento, CURDATE()) AS idade " +
+                 "FROM cad_animal a " +
+                 "JOIN planos p ON a.id_plano = p.id_plano " +
+                 "WHERE a.id_animal = ? AND a.isDeleted = 0";
 
-        try (Connection connection = new DBConnection().getConnection();
-             PreparedStatement statement = connection.prepareStatement(query)) {
-            
-            statement.setInt(1, petId);
-            try (ResultSet resultSet = statement.executeQuery()) {
-                if (resultSet.next()) {
-                    return new Pet(
-                        resultSet.getInt("id_animal"),
-                        resultSet.getString("nome"),
-                        resultSet.getDate("data_nascimento").toLocalDate(),
-                        resultSet.getInt("id_tutor"),
-                        resultSet.getString("raca"),
-                        resultSet.getString("especie"),
-                        resultSet.getString("sexo").charAt(0),
-                        resultSet.getString("cor"),
-                        resultSet.getString("obs_geral"),
-                        resultSet.getString("plano_nome"),
-                        resultSet.getInt("idade")
-                    );
-                }
+    try (Connection connection = new DBConnection().getConnection();
+         PreparedStatement statement = connection.prepareStatement(query)) {
+        
+        statement.setInt(1, petId);
+        try (ResultSet resultSet = statement.executeQuery()) {
+            if (resultSet.next()) {
+                return new Pet(
+                    resultSet.getInt("id_animal"),
+                    resultSet.getString("nome"),
+                    resultSet.getDate("data_nascimento").toLocalDate(),
+                    resultSet.getInt("id_tutor"),
+                    resultSet.getString("raca"),
+                    resultSet.getString("especie"),
+                    resultSet.getString("sexo").charAt(0),
+                    resultSet.getString("cor"),
+                    resultSet.getString("obs_geral"),
+                    resultSet.getString("plano_nome"),
+                    resultSet.getInt("idade")
+                );
             }
-        } catch (SQLException e) {
-            e.printStackTrace();
         }
-        return null;
+    } catch (SQLException e) {
+        e.printStackTrace();
     }
+    return null;
+}
+    
+    public List<Pet> getPetsByTutorId(int idTutor) throws SQLException {
+           List<Pet> pets = new ArrayList<>();
+           String sql = "SELECT * FROM cad_animal WHERE id_tutor = ? AND isDeleted = 0";
+
+           try {
+               PreparedStatement stmt = connection.prepareStatement(sql);
+               stmt.setInt(1, idTutor);
+
+               ResultSet rs = stmt.executeQuery();
+
+               while (rs.next()) {
+                   Pet pet = new Pet();
+                   pet.setId(rs.getInt("id_animal"));
+                   pet.setNome(rs.getString("nome"));
+                   pet.setId_tutor(rs.getInt("id_tutor"));
+                   // Set other pet properties as needed
+                   pets.add(pet);
+               }
+
+               rs.close();
+               stmt.close();
+           } catch (SQLException e) {
+               e.printStackTrace();
+               throw new SQLException("Error fetching pets by tutor ID: " + e.getMessage());
+           }
+
+           return pets;
+       }
+
+       public void close() {
+           try {
+               if (connection != null && !connection.isClosed()) {
+                   connection.close();
+               }
+           } catch (SQLException e) {
+               System.err.println("Error closing connection: " + e.getMessage());
+           }
+       }
 }
