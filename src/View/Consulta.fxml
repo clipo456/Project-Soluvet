@@ -171,20 +171,5 @@
             <DropShadow height="5.0" radius="2.0" width="5.0" />
          </effect>
       </Button>
-      <Button layoutX="889.0" layoutY="540.0" maxHeight="30.0" maxWidth="154.0" minHeight="30.0" minWidth="154.0" mnemonicParsing="false" onAction="#abrirCadastroPet" prefHeight="30.0" prefWidth="154.0" text="Cadastrar PET">
-         <font>
-            <Font name="Segoe UI Semibold" size="15.0" />
-         </font>
-         <effect>
-            <DropShadow height="5.0" radius="2.0" width="5.0" />
-         </effect>
-         <graphic>
-            <ImageView fitHeight="25.0" fitWidth="21.0" pickOnBounds="true" preserveRatio="true">
-               <image>
-                  <Image url="@../Img/vet%202.png" />
-               </image>
-            </ImageView>
-         </graphic>
-      </Button>
    </children>
 </AnchorPane>
