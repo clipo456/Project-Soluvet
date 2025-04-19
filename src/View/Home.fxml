@@ -39,7 +39,7 @@
             </ImageView>
          </graphic>
          <font>
-            <Font name="Segoe UI Semibold" size="20.0" />
+            <Font name="Segoe UI Semibold" size="14.0" />
          </font>
          <effect>
             <DropShadow height="5.0" radius="2.0" width="5.0" />
@@ -54,7 +54,22 @@
             </ImageView>
          </graphic>
          <font>
-            <Font name="Segoe UI Semibold" size="20.0" />
+            <Font name="Segoe UI Semibold" size="14.0" />
+         </font>
+         <effect>
+            <DropShadow height="5.0" radius="2.0" width="5.0" />
+         </effect>
+      </Button>
+      <Button layoutX="413.0" layoutY="36.0" mnemonicParsing="false" onAction="#abrirCadastroPet" prefHeight="80.0" prefWidth="166.0" text="Cadastrar PET">
+         <graphic>
+            <ImageView fitHeight="43.0" fitWidth="40.0" pickOnBounds="true" preserveRatio="true">
+               <image>
+                  <Image url="@../Img/vet%202.png" />
+               </image>
+            </ImageView>
+         </graphic>
+         <font>
+            <Font name="Segoe UI Semibold" size="14.0" />
          </font>
          <effect>
             <DropShadow height="5.0" radius="2.0" width="5.0" />
@@ -69,7 +84,7 @@
             </ImageView>
          </graphic>
          <font>
-            <Font name="Segoe UI Semibold" size="20.0" />
+            <Font name="Segoe UI Semibold" size="14.0" />
          </font>
          <effect>
             <DropShadow height="5.0" radius="2.0" width="5.0" />
@@ -124,20 +139,5 @@
             </effect>
          </Button>
       </AnchorPane>
-      <Button layoutX="413.0" layoutY="36.0" mnemonicParsing="false" onAction="#abrirCadastroPet" prefHeight="80.0" prefWidth="166.0" text="Cadastrar PET">
-         <graphic>
-            <ImageView fitHeight="43.0" fitWidth="40.0" pickOnBounds="true" preserveRatio="true">
-               <image>
-                  <Image url="@../Img/vet%202.png" />
-               </image>
-            </ImageView>
-         </graphic>
-         <font>
-            <Font name="Segoe UI Semibold" size="20.0" />
-         </font>
-         <effect>
-            <DropShadow height="5.0" radius="2.0" width="5.0" />
-         </effect>
-      </Button>
    </children>
 </AnchorPane>

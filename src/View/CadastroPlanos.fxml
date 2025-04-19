@@ -12,13 +12,13 @@
 <?import javafx.scene.shape.Rectangle?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane id="AnchorPane" prefHeight="400.0" prefWidth="600.0" styleClass="mainFxmlClass" xmlns:fx="http://javafx.com/fxml/1" xmlns="http://javafx.com/javafx/23.0.1" fx:controller="Controller.BanhoTosaController">
+<AnchorPane id="AnchorPane" prefHeight="400.0" prefWidth="600.0" styleClass="mainFxmlClass" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Controller.CadastroPlanosController">
     <stylesheets>
-        <URL value="@banhotosa.css" />
+        <URL value="@cadastroplanos.css" />
     </stylesheets>
    <children>
-      <Rectangle fill="#a6c795" height="150.0" layoutX="10.0" layoutY="10.0" opacity="0.6" smooth="false" stroke="#575e58" strokeWidth="0.5" width="1080.0" />
-      <Button fx:id="btnHome" disable="true" layoutX="124.0" layoutY="44.0" mnemonicParsing="false" prefHeight="80.0" prefWidth="80.0">
+       <Rectangle fill="#a6c795" height="150.0" opacity="0.6" smooth="false" stroke="#575e58" strokeWidth="0.5" width="1080.0" />
+      <Button fx:id="btnHome" layoutX="89.0" layoutY="35.0" mnemonicParsing="false" onAction="#abrirHome" prefHeight="80.0" prefWidth="80.0">
          <graphic>
             <ImageView fitHeight="64.0" fitWidth="60.0" pickOnBounds="true" preserveRatio="true">
                <image>
@@ -30,7 +30,7 @@
             <DropShadow height="5.0" radius="2.0" width="5.0" />
          </effect>
       </Button>
-      <Button layoutX="258.0" layoutY="44.0" mnemonicParsing="false" prefHeight="80.0" prefWidth="200.0" text="Cadastros">
+      <Button layoutX="205.0" layoutY="36.0" mnemonicParsing="false" onAction="#abrirCadastroTutor" prefHeight="80.0" prefWidth="172.0" text="Cadastrar Tutor">
          <graphic>
             <ImageView fitHeight="43.0" fitWidth="40.0" pickOnBounds="true" preserveRatio="true">
                <image>
@@ -39,13 +39,13 @@
             </ImageView>
          </graphic>
          <font>
-            <Font name="Segoe UI Semibold" size="20.0" />
+            <Font name="Segoe UI Semibold" size="14.0" />
          </font>
          <effect>
             <DropShadow height="5.0" radius="2.0" width="5.0" />
          </effect>
       </Button>
-      <Button layoutX="512.0" layoutY="44.0" mnemonicParsing="false" prefHeight="80.0" prefWidth="200.0" text="Banho e tosa">
+      <Button disable="true" layoutX="615.0" layoutY="36.0" mnemonicParsing="false" prefHeight="80.0" prefWidth="121.0" text="Planos">
          <graphic>
             <ImageView fitHeight="51.0" fitWidth="57.0" pickOnBounds="true" preserveRatio="true">
                <image>
@@ -54,13 +54,28 @@
             </ImageView>
          </graphic>
          <font>
-            <Font name="Segoe UI Semibold" size="20.0" />
+            <Font name="Segoe UI Semibold" size="14.0" />
          </font>
          <effect>
             <DropShadow height="5.0" radius="2.0" width="5.0" />
          </effect>
       </Button>
-      <Button layoutX="766.0" layoutY="44.0" mnemonicParsing="false" prefHeight="80.0" prefWidth="200.0" text="Consultar">
+      <Button layoutX="413.0" layoutY="36.0" mnemonicParsing="false" onAction="#abrirCadastroPet" prefHeight="80.0" prefWidth="166.0" text="Cadastrar PET">
+         <graphic>
+            <ImageView fitHeight="43.0" fitWidth="40.0" pickOnBounds="true" preserveRatio="true">
+               <image>
+                  <Image url="@../Img/vet%202.png" />
+               </image>
+            </ImageView>
+         </graphic>
+         <font>
+            <Font name="Segoe UI Semibold" size="14.0" />
+         </font>
+         <effect>
+            <DropShadow height="5.0" radius="2.0" width="5.0" />
+         </effect>
+      </Button>
+      <Button layoutX="772.0" layoutY="36.0" mnemonicParsing="false" onAction="#abrirConsulta" prefHeight="80.0" prefWidth="210.0" text="Consultar Cadastros">
          <graphic>
             <ImageView fitHeight="43.0" fitWidth="40.0" pickOnBounds="true" preserveRatio="true">
                <image>
@@ -69,13 +84,13 @@
             </ImageView>
          </graphic>
          <font>
-            <Font name="Segoe UI Semibold" size="20.0" />
+            <Font name="Segoe UI Semibold" size="14.0" />
          </font>
          <effect>
             <DropShadow height="5.0" radius="2.0" width="5.0" />
          </effect>
       </Button>
-      <Button layoutX="1020.0" layoutY="20.0" mnemonicParsing="false" prefHeight="60.0" prefWidth="60.0">
+      <Button layoutX="1010.0" layoutY="10.0" mnemonicParsing="false" prefHeight="60.0" prefWidth="60.0">
          <graphic>
             <ImageView fitHeight="38.0" fitWidth="42.0" pickOnBounds="true" preserveRatio="true">
                <image>
@@ -87,7 +102,7 @@
             <DropShadow height="5.0" radius="2.0" width="5.0" />
          </effect>
       </Button>
-      <Button layoutX="20.0" layoutY="20.0" mnemonicParsing="false" prefHeight="50.0" prefWidth="50.0">
+      <Button layoutX="10.0" layoutY="10.0" maxHeight="50.0" maxWidth="50.0" minHeight="50.0" minWidth="50.0" mnemonicParsing="false" prefHeight="50.0" prefWidth="50.0">
          <graphic>
             <ImageView fitHeight="34.0" fitWidth="35.0" pickOnBounds="true" preserveRatio="true">
                <image>
@@ -99,7 +114,7 @@
             <DropShadow height="5.0" radius="2.0" width="5.0" />
          </effect>
       </Button>
-      <Rectangle fill="#ebebfb" height="570.0" layoutX="10.0" layoutY="160.0" smooth="false" stroke="#e8efe4" strokeWidth="0.5" width="1080.0" />
+      <Rectangle fill="#ebebfb" height="570.0" layoutY="150.0" smooth="false" stroke="#e8efe4" strokeWidth="0.5" width="1080.0" />
       <Rectangle arcHeight="15.0" arcWidth="15.0" fill="#a6c795" height="540.0" layoutX="290.0" layoutY="174.0" opacity="0.5" stroke="#575e58" strokeLineCap="ROUND" strokeLineJoin="ROUND" strokeWidth="0.5" width="784.0" />
       <Rectangle arcHeight="15.0" arcWidth="15.0" fill="#a6c795" height="540.0" layoutX="27.0" layoutY="174.0" opacity="0.5" stroke="#575e58" strokeLineCap="ROUND" strokeLineJoin="ROUND" strokeWidth="0.5" width="255.0" />
       <Label layoutX="42.0" layoutY="161.0" prefHeight="75.0" prefWidth="225.0" text="Agendamentos do dia" textAlignment="CENTER" wrapText="true">
