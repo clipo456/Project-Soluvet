@@ -47,7 +47,7 @@
             <DropShadow height="5.0" radius="2.0" width="5.0" />
          </effect>
       </Button>
-      <Button layoutX="615.0" layoutY="36.0" mnemonicParsing="false" prefHeight="80.0" prefWidth="121.0" text="Planos">
+      <Button layoutX="615.0" layoutY="36.0" mnemonicParsing="false" onAction="#abrirCadastroPlanos" prefHeight="80.0" prefWidth="121.0" text="Planos">
          <graphic>
             <ImageView fitHeight="51.0" fitWidth="57.0" pickOnBounds="true" preserveRatio="true">
                <image>
@@ -142,7 +142,7 @@
          </columnResizePolicy>
       </TableView>
 
-    <MenuButton fx:id="tipoUsuario" layoutX="236.0" layoutY="553.0" mnemonicParsing="false" text="Tipo">
+    <MenuButton fx:id="tipoUsuario" layoutX="236.0" layoutY="556.0" mnemonicParsing="false" text="Tipo">
         <!-- Remove the items tags completely -->
     </MenuButton>
       <Label layoutX="236.0" layoutY="444.0" text="Nome">
@@ -182,12 +182,12 @@
             <DropShadow height="5.0" radius="2.0" width="5.0" />
          </effect>
       </Button>
-      <Label layoutX="38.0" layoutY="527.0" text="Senha">
+      <Label layoutX="38.0" layoutY="530.0" text="Senha">
          <font>
             <Font name="Segoe UI Semibold" size="16.0" />
          </font>
       </Label>
-      <Label layoutX="236.0" layoutY="527.0" text="Tipo">
+      <Label layoutX="236.0" layoutY="530.0" text="Tipo">
          <font>
             <Font name="Segoe UI Semibold" size="16.0" />
          </font>
@@ -195,6 +195,6 @@
       <TextField fx:id="userUsuario" layoutX="35.0" layoutY="476.0" prefHeight="37.0" prefWidth="168.0" />
       <TextField fx:id="nomeUsuario" layoutX="236.0" layoutY="476.0" prefHeight="37.0" prefWidth="168.0" />
       <TextField fx:id="cpfUsuario" layoutX="434.0" layoutY="476.0" prefHeight="37.0" prefWidth="168.0" />
-      <TextField fx:id="cpfUsuario1" layoutX="35.0" layoutY="552.0" prefHeight="37.0" prefWidth="168.0" />
+      <TextField fx:id="cpfUsuario1" layoutX="35.0" layoutY="556.0" prefHeight="37.0" prefWidth="168.0" />
    </children>
 </AnchorPane>

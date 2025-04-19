@@ -21,19 +21,27 @@ public class Navigation {
     }
     
     public void abrirCadastroTutor(ActionEvent event) throws IOException {
-        loadView("/View/CadastroTutor.fxml", "Cadastro Tutor", event);
+        loadView("/View/CadastroTutor.fxml", "Gerenciamento de Tutores", event);
     }
     
     public void abrirCadastroPet(ActionEvent event) throws IOException {
-        loadView("/View/CadastroPet.fxml", "Cadastro Pet", event);
+        loadView("/View/CadastroPet.fxml", "Gerenciamento de Pets", event);
     }
     
     public void abrirConsulta(ActionEvent event) throws IOException {
-        loadView("/View/Consulta.fxml", "Consulta", event);
+        loadView("/View/Consulta.fxml", "Consultas", event);
     }
     
     public void abrirCadastroAgendamento(ActionEvent event) throws IOException {
-        loadView("/View/CadastroAgendamento.fxml", "Cadastro Agendamento", event);
+        loadView("/View/CadastroAgendamento.fxml", "Gerenciamento de Agendamentos", event);
+    }
+    
+    public void abrirCadastroPlanos(ActionEvent event) throws IOException {
+        loadView("/View/CadastroPlanos.fxml", "Gerenciamento de Planos", event);
+    }
+    
+    public void abrirCadastroUsuarios(ActionEvent event) throws IOException {
+        loadView("/View/CadastroUsuario.fxml", "Gerenciamento de Usuários", event);
     }
     
     private void loadView(String fxmlPath, String title, ActionEvent event) throws IOException {
