@@ -90,9 +90,9 @@
             <DropShadow height="5.0" radius="2.0" width="5.0" />
          </effect>
       </Button>
-      <Button layoutX="1010.0" layoutY="10.0" mnemonicParsing="false" prefHeight="60.0" prefWidth="60.0">
+      <Button layoutX="1010.0" layoutY="10.0" mnemonicParsing="false" onAction="#abrirConfiguracoes" prefHeight="60.0" prefWidth="60.0">
          <graphic>
-            <ImageView fitHeight="38.0" fitWidth="42.0" pickOnBounds="true" preserveRatio="true">
+            <ImageView fx:id="btnConfig" fitHeight="38.0" fitWidth="42.0" pickOnBounds="true" preserveRatio="true">
                <image>
                   <Image url="@../Img/config.png" />
                </image>

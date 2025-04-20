@@ -4,10 +4,6 @@
  */
 package Model;
 
-/**
- *
- * @author yurim
- */
 public class Usuario {
     
 }

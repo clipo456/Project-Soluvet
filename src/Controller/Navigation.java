@@ -6,14 +6,35 @@ import javafx.fxml.FXMLLoader;
 import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.control.Alert;
+import javafx.scene.layout.AnchorPane;
 import javafx.stage.Stage;
 
 public class Navigation {
     
     private static Stage mainStage; // Keep track of the main stage
-    
+    private Stage configStage;
+
     public static void setMainStage(Stage stage) {
         mainStage = stage;
+    }
+
+    public static Stage getMainStage() {
+        return mainStage;
+    }
+    
+    public void abrirConfiguracoes(ActionEvent event) {
+        try {
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/View/Config.fxml"));
+            AnchorPane root = loader.load();
+
+            // Get the controller and set its configPane
+            ConfigController configController = loader.getController();
+            configController.setConfigPane(root); // Add this line
+            configController.showConfigWindow();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
     
     public void abrirHome(ActionEvent event) throws IOException {
@@ -45,20 +66,16 @@ public class Navigation {
     }
     
     private void loadView(String fxmlPath, String title, ActionEvent event) throws IOException {
-        // Get the current stage from the event source
         Stage currentStage = (Stage) ((Node) event.getSource()).getScene().getWindow();
         
-        // Load the new FXML
         FXMLLoader loader = new FXMLLoader(getClass().getResource(fxmlPath));
         Parent root = loader.load();
         
-        // Set the new scene on the current stage
         Scene scene = new Scene(root);
         currentStage.setScene(scene);
         currentStage.setTitle(title);
         currentStage.show();
         
-        // If we're loading Consulta, set its stage reference
         if (loader.getController() instanceof ConsultaController) {
             ((ConsultaController) loader.getController()).setStage(currentStage);
         }
