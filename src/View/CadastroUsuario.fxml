@@ -150,7 +150,7 @@
             <Font name="Segoe UI Semibold" size="16.0" />
          </font>
       </Label>
-      <Button fx:id="btnCadastrar" layoutX="38.0" layoutY="620.0" maxHeight="60.0" maxWidth="130.0" minHeight="60.0" minWidth="130.0" mnemonicParsing="false" onAction="#handleCadastrar" prefHeight="60.0" prefWidth="130.0" text="Cadastrar">
+      <Button fx:id="btnCadastrar" layoutX="38.0" layoutY="620.0" maxHeight="60.0" maxWidth="130.0" minHeight="60.0" minWidth="130.0" mnemonicParsing="false"  prefHeight="60.0" prefWidth="130.0" text="Cadastrar">
          <font>
             <Font name="Segoe UI Semibold" size="20.0" />
          </font>
@@ -158,7 +158,7 @@
             <DropShadow height="5.0" radius="2.0" width="5.0" />
          </effect>
       </Button>
-      <Button fx:id="btnExcluir" layoutX="333.0" layoutY="620.0" maxHeight="60.0" maxWidth="130.0" minHeight="60.0" minWidth="130.0" mnemonicParsing="false" onAction="#handleExcluir" prefHeight="60.0" prefWidth="130.0" text="Excluir">
+      <Button fx:id="btnExcluir" layoutX="333.0" layoutY="620.0" maxHeight="60.0" maxWidth="130.0" minHeight="60.0" minWidth="130.0" mnemonicParsing="false" prefHeight="60.0" prefWidth="130.0" text="Excluir">
          <font>
             <Font name="Segoe UI Semibold" size="20.0" />
          </font>
@@ -166,7 +166,7 @@
             <DropShadow height="5.0" radius="2.0" width="5.0" />
          </effect>
       </Button>
-      <Button fx:id="btnLimpar" layoutX="482.0" layoutY="620.0" maxHeight="60.0" maxWidth="130.0" minHeight="60.0" minWidth="130.0" mnemonicParsing="false" onAction="#handleLimpar" prefHeight="60.0" prefWidth="130.0" text="Limpar">
+      <Button fx:id="btnLimpar" layoutX="482.0" layoutY="620.0" maxHeight="60.0" maxWidth="130.0" minHeight="60.0" minWidth="130.0" mnemonicParsing="false"  prefHeight="60.0" prefWidth="130.0" text="Limpar">
          <font>
             <Font name="Segoe UI Semibold" size="20.0" />
          </font>
@@ -174,7 +174,7 @@
             <DropShadow height="5.0" radius="2.0" width="5.0" />
          </effect>
       </Button>
-      <Button fx:id="btnAlterar" layoutX="183.0" layoutY="620.0" maxHeight="60.0" maxWidth="130.0" minHeight="60.0" minWidth="130.0" mnemonicParsing="false" onAction="#handleAlterar" prefHeight="60.0" prefWidth="130.0" text="Alterar">
+      <Button fx:id="btnAlterar" layoutX="183.0" layoutY="620.0" maxHeight="60.0" maxWidth="130.0" minHeight="60.0" minWidth="130.0" mnemonicParsing="false"  prefHeight="60.0" prefWidth="130.0" text="Alterar">
          <font>
             <Font name="Segoe UI Semibold" size="20.0" />
          </font>

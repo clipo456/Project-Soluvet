@@ -93,7 +93,7 @@
             <DropShadow height="5.0" radius="2.0" width="5.0" />
          </effect>
       </Button>
-      <Button layoutX="1010.0" layoutY="10.0" mnemonicParsing="false" prefHeight="60.0" prefWidth="60.0">
+      <Button layoutX="1010.0" layoutY="10.0" mnemonicParsing="false" onAction="#abrirConfiguracoes" prefHeight="60.0" prefWidth="60.0">
          <graphic>
             <ImageView fitHeight="38.0" fitWidth="42.0" pickOnBounds="true" preserveRatio="true">
                <image>
@@ -201,7 +201,7 @@
          </font>
       </Label>
       <TextField fx:id="pesquisarPlanos" layoutX="8.0" layoutY="164.0" maxHeight="30.0" minHeight="30.0" prefHeight="30.0" prefWidth="198.0" promptText="Pesquisa" />
-      <Button fx:id="btnPesquisar" onAction="#pesquisarPlano" layoutX="213.0" layoutY="164.0" maxHeight="30.0" maxWidth="30.0" minHeight="30.0" minWidth="30.0" mnemonicParsing="false" prefHeight="30.0" prefWidth="30.0">
+      <Button fx:id="btnPesquisar" layoutX="213.0" layoutY="164.0" maxHeight="30.0" maxWidth="30.0" minHeight="30.0" minWidth="30.0" mnemonicParsing="false" onAction="#pesquisarPlano" prefHeight="30.0" prefWidth="30.0">
          <font>
             <Font name="Segoe UI Semibold" size="20.0" />
          </font>

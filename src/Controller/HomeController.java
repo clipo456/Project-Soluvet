@@ -1,6 +1,7 @@
 package Controller;
 
 import Model.DBConnection;
+import Model.Session;
 import java.net.URL;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
@@ -28,6 +29,9 @@ public class HomeController extends Navigation implements Initializable {
 
     @Override
     public void initialize(URL url, ResourceBundle rb) {
+        Session sessao = Session.getInstance();
+        System.out.println(sessao.getUsuario());
+        
         setupListView();
         initializeDatePicker();
         refreshAppointments(datePicker.getValue());

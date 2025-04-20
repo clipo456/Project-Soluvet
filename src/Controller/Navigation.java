@@ -1,5 +1,6 @@
 package Controller;
 
+import Model.Session;
 import java.io.IOException;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXMLLoader;
@@ -10,7 +11,9 @@ import javafx.scene.control.Alert;
 import javafx.scene.layout.AnchorPane;
 import javafx.stage.Stage;
 
-public class Navigation {
+public class Navigation{
+    
+    Session sessao = Session.getInstance();
     
     private static Stage mainStage; // Keep track of the main stage
     private Stage configStage;
@@ -28,10 +31,12 @@ public class Navigation {
             FXMLLoader loader = new FXMLLoader(getClass().getResource("/View/Config.fxml"));
             AnchorPane root = loader.load();
 
-            // Get the controller and set its configPane
             ConfigController configController = loader.getController();
-            configController.setConfigPane(root); // Add this line
-            configController.showConfigWindow();
+            configController.setConfigPane(root);
+
+            // Obter o Stage atual a partir do evento
+            Stage currentStage = (Stage) ((Node) event.getSource()).getScene().getWindow();
+            configController.showConfigWindow(currentStage); // Passar o Stage atual
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -65,7 +70,18 @@ public class Navigation {
         loadView("/View/CadastroUsuario.fxml", "Gerenciamento de Usuários", event);
     }
     
-    private void loadView(String fxmlPath, String title, ActionEvent event) throws IOException {
+     public void abrirUsuarios(ActionEvent event) throws IOException{
+        if (sessao.isAdmin()){
+            loadView("/View/CadastroUsuario.fxml", "Gerenciamento de Usuários", event);
+        }
+    }
+     
+    public void logout(ActionEvent event) throws IOException{
+        sessao.logout();
+        loadView("/View/Login.fxml", "Login", event);
+    }
+    
+    public void loadView(String fxmlPath, String title, ActionEvent event) throws IOException {
         Stage currentStage = (Stage) ((Node) event.getSource()).getScene().getWindow();
         
         FXMLLoader loader = new FXMLLoader(getClass().getResource(fxmlPath));

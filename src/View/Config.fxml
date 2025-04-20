@@ -14,7 +14,7 @@
    <children>
       <Rectangle fill="#ebebfb" height="210.0" smooth="false" stroke="#e8efe4" strokeWidth="0.5" width="200.0" />
       <Rectangle arcHeight="15.0" arcWidth="15.0" fill="#e5ebe6" height="190.0" layoutX="7.0" layoutY="9.0" opacity="0.5" stroke="#575e58" strokeLineCap="ROUND" strokeLineJoin="ROUND" strokeWidth="0.5" width="185.0" />
-      <Button fx:id="btnAdmin" layoutX="12.0" layoutY="21.0" maxHeight="60.0" maxWidth="175.0" minHeight="60.0" minWidth="175.0" mnemonicParsing="false" nodeOrientation="RIGHT_TO_LEFT" prefHeight="60.0" prefWidth="175.0" styleClass="mainFxmlClass" stylesheets="@config.css" text="Área admin.">
+      <Button fx:id="btnAdmin" layoutX="12.0" layoutY="21.0" maxHeight="60.0" maxWidth="175.0" minHeight="60.0" minWidth="175.0" mnemonicParsing="false" nodeOrientation="RIGHT_TO_LEFT" onAction="#abrirUsuarios" prefHeight="60.0" prefWidth="175.0" styleClass="mainFxmlClass" stylesheets="@config.css" text="Área admin.">
          <graphic>
             <ImageView fitHeight="35.0" fitWidth="50.0" pickOnBounds="true" preserveRatio="true">
                <image>
@@ -23,7 +23,7 @@
             </ImageView>
          </graphic>
       </Button>
-      <Button fx:id="btnLogout" layoutX="12.0" layoutY="115.0" maxHeight="60.0" maxWidth="175.0" minHeight="60.0" minWidth="175.0" mnemonicParsing="false" nodeOrientation="RIGHT_TO_LEFT" prefHeight="60.0" prefWidth="175.0" styleClass="mainFxmlClass" stylesheets="@config.css" text="Logout">
+      <Button fx:id="btnLogout" layoutX="12.0" layoutY="115.0" maxHeight="60.0" maxWidth="175.0" minHeight="60.0" minWidth="175.0" mnemonicParsing="false" nodeOrientation="RIGHT_TO_LEFT" onAction="#logout" prefHeight="60.0" prefWidth="175.0" styleClass="mainFxmlClass" stylesheets="@config.css" text="Logout">
          <graphic>
             <ImageView fitHeight="35.0" fitWidth="50.0" pickOnBounds="true" preserveRatio="true">
                <image>
