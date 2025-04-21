@@ -1,6 +1,9 @@
 package Controller;
 
-import Model.Session;
+import javafx.scene.layout.AnchorPane;
+import javafx.stage.Modality;
+import javafx.stage.StageStyle;
+import javafx.scene.control.Alert;
 import java.io.IOException;
 import java.net.URL;
 import java.util.ResourceBundle;
@@ -10,10 +13,7 @@ import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
-import javafx.scene.layout.AnchorPane;
-import javafx.stage.Modality;
 import javafx.stage.Stage;
-import javafx.stage.StageStyle;
 
 public class ConfigController extends Navigation implements Initializable {
     
@@ -54,28 +54,27 @@ public class ConfigController extends Navigation implements Initializable {
     }
     
     @FXML
-    @Override
     public void abrirUsuarios(ActionEvent event) throws IOException {
-        if (configStage != null) {
-            configStage.close();
-            configStage = null;
-        }
-
-        // Obtém o mainStage global
-        Stage mainStage = Navigation.getMainStage();
-        if (mainStage != null) {
-            // Fecha a tela atual (que abriu a configuração)
-            if (parentStage != null && parentStage != mainStage) {
-                parentStage.close();
+        if(sessao.isAdmin()){
+            if (configStage != null) {
+                configStage.close();
+                configStage = null;
             }
-
-            // Carrega a nova tela no mainStage
-            loadView("/View/CadastroUsuario.fxml", "Gerenciamento de Usuários", mainStage);
+            // Obtém o mainStage global
+            Stage mainStage = Navigation.getMainStage();
+            if (mainStage != null) {
+                // Fecha a tela atual (que abriu a configuração)
+                if (parentStage != null && parentStage != mainStage) {
+                    parentStage.close();
+                }
+                loadView("/View/CadastroUsuario.fxml", "Gerenciamento de Usuários", mainStage);
+            }
+        }else{
+            showAlert("Erro!", "O usuário logado não tem privilégios de administrador.");
         }
     }
 
     @FXML
-    @Override
     public void logout(ActionEvent event) throws IOException {
         if (configStage != null) {
             configStage.close();
@@ -87,18 +86,27 @@ public class ConfigController extends Navigation implements Initializable {
             if (parentStage != null && parentStage != mainStage) {
                 parentStage.close();
             }
-
+            
             loadView("/View/Login.fxml", "Login", mainStage);
+            
         }
     }
     
     private void loadView(String fxmlPath, String title, Stage stage) throws IOException {
-    FXMLLoader loader = new FXMLLoader(getClass().getResource(fxmlPath));
-    Parent root = loader.load();
+        FXMLLoader loader = new FXMLLoader(getClass().getResource(fxmlPath));
+        Parent root = loader.load();
+
+        Scene scene = new Scene(root);
+        stage.setScene(scene);
+        stage.setTitle(title);
+        stage.show();
+    }
     
-    Scene scene = new Scene(root);
-    stage.setScene(scene);
-    stage.setTitle(title);
-    stage.show();
-}
+    private void showAlert(String title, String message) {
+         Alert alert = new Alert(Alert.AlertType.ERROR);
+         alert.setTitle(title);
+         alert.setHeaderText(null);
+         alert.setContentText(message);
+         alert.showAndWait();
+        }
 }

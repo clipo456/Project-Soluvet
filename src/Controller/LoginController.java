@@ -46,6 +46,7 @@ public class LoginController implements Initializable {
                 showAlert("Erro de Login", "Usuário ou senha inválidos.");
             }
         }
+      
         private void showAlert(String title, String message) {
          Alert alert = new Alert(Alert.AlertType.INFORMATION);
          alert.setTitle(title);

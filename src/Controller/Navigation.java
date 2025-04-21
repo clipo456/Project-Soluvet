@@ -70,17 +70,6 @@ public class Navigation{
         loadView("/View/CadastroUsuario.fxml", "Gerenciamento de Usuários", event);
     }
     
-     public void abrirUsuarios(ActionEvent event) throws IOException{
-        if (sessao.isAdmin()){
-            loadView("/View/CadastroUsuario.fxml", "Gerenciamento de Usuários", event);
-        }
-    }
-     
-    public void logout(ActionEvent event) throws IOException{
-        sessao.logout();
-        loadView("/View/Login.fxml", "Login", event);
-    }
-    
     public void loadView(String fxmlPath, String title, ActionEvent event) throws IOException {
         Stage currentStage = (Stage) ((Node) event.getSource()).getScene().getWindow();
         
@@ -96,4 +85,5 @@ public class Navigation{
             ((ConsultaController) loader.getController()).setStage(currentStage);
         }
     }
+    
 }
