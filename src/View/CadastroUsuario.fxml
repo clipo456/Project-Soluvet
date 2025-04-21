@@ -92,7 +92,7 @@
             <DropShadow height="5.0" radius="2.0" width="5.0" />
          </effect>
       </Button>
-      <Button layoutX="1010.0" layoutY="10.0" mnemonicParsing="false" prefHeight="60.0" prefWidth="60.0">
+      <Button layoutX="1010.0" layoutY="10.0" mnemonicParsing="false" onAction="#abrirConfiguracoes" prefHeight="60.0" prefWidth="60.0">
          <graphic>
             <ImageView fitHeight="38.0" fitWidth="42.0" pickOnBounds="true" preserveRatio="true">
                <image>
@@ -118,17 +118,17 @@
       </Button>
       <Rectangle fill="#ebebfb" height="570.0" layoutY="150.0" smooth="false" stroke="#e8efe4" strokeWidth="0.5" width="1080.0" />
       <Rectangle arcHeight="15.0" arcWidth="15.0" fill="#e5ebe6" height="538.0" layoutX="3.0" layoutY="158.0" opacity="0.5" stroke="#575e58" strokeLineCap="ROUND" strokeLineJoin="ROUND" strokeWidth="0.5" width="1073.0" />
-      <Label layoutX="37.0" layoutY="444.0" text="Usuário">
+      <Label layoutX="37.0" layoutY="455.0" text="Usuário">
          <font>
             <Font name="Segoe UI Semibold" size="16.0" />
          </font>
       </Label>
-      <Label layoutX="434.0" layoutY="444.0" text="CPF">
+      <Label layoutX="434.0" layoutY="455.0" text="CPF">
          <font>
             <Font name="Segoe UI Semibold" size="16.0" />
          </font>
       </Label>
-      <TableView fx:id="tableView" layoutX="6.0" layoutY="171.0" prefHeight="246.0" prefWidth="1065.0">
+      <TableView fx:id="tableView" layoutX="6.0" layoutY="208.0" prefHeight="246.0" prefWidth="1065.0">
         <columns>
             <TableColumn fx:id="idTbUsuario" prefWidth="57.60000228881836" text="ID" />
             <TableColumn fx:id="userTbUsuario" minWidth="0.0" prefWidth="228.0" text="Usuário" />
@@ -145,12 +145,12 @@
     <MenuButton fx:id="tipoUsuario" layoutX="236.0" layoutY="556.0" mnemonicParsing="false" text="Tipo">
         <!-- Remove the items tags completely -->
     </MenuButton>
-      <Label layoutX="236.0" layoutY="444.0" text="Nome">
+      <Label layoutX="236.0" layoutY="455.0" text="Nome">
          <font>
             <Font name="Segoe UI Semibold" size="16.0" />
          </font>
       </Label>
-      <Button fx:id="btnCadastrar" layoutX="38.0" layoutY="620.0" maxHeight="60.0" maxWidth="130.0" minHeight="60.0" minWidth="130.0" mnemonicParsing="false"  prefHeight="60.0" prefWidth="130.0" text="Cadastrar">
+      <Button fx:id="btnCadastrar" layoutX="38.0" layoutY="620.0" maxHeight="60.0" maxWidth="130.0" minHeight="60.0" minWidth="130.0" mnemonicParsing="false" onAction="#handleCadastrar" prefHeight="60.0" prefWidth="130.0" text="Cadastrar">
          <font>
             <Font name="Segoe UI Semibold" size="20.0" />
          </font>
@@ -158,7 +158,7 @@
             <DropShadow height="5.0" radius="2.0" width="5.0" />
          </effect>
       </Button>
-      <Button fx:id="btnExcluir" layoutX="333.0" layoutY="620.0" maxHeight="60.0" maxWidth="130.0" minHeight="60.0" minWidth="130.0" mnemonicParsing="false" prefHeight="60.0" prefWidth="130.0" text="Excluir">
+      <Button fx:id="btnExcluir" layoutX="333.0" layoutY="620.0" maxHeight="60.0" maxWidth="130.0" minHeight="60.0" minWidth="130.0" mnemonicParsing="false" onAction="#handleExcluir" prefHeight="60.0" prefWidth="130.0" text="Excluir">
          <font>
             <Font name="Segoe UI Semibold" size="20.0" />
          </font>
@@ -166,7 +166,7 @@
             <DropShadow height="5.0" radius="2.0" width="5.0" />
          </effect>
       </Button>
-      <Button fx:id="btnLimpar" layoutX="482.0" layoutY="620.0" maxHeight="60.0" maxWidth="130.0" minHeight="60.0" minWidth="130.0" mnemonicParsing="false"  prefHeight="60.0" prefWidth="130.0" text="Limpar">
+      <Button fx:id="btnLimpar" layoutX="482.0" layoutY="620.0" maxHeight="60.0" maxWidth="130.0" minHeight="60.0" minWidth="130.0" mnemonicParsing="false" onAction="#handleLimpar" prefHeight="60.0" prefWidth="130.0" text="Limpar">
          <font>
             <Font name="Segoe UI Semibold" size="20.0" />
          </font>
@@ -174,7 +174,7 @@
             <DropShadow height="5.0" radius="2.0" width="5.0" />
          </effect>
       </Button>
-      <Button fx:id="btnAlterar" layoutX="183.0" layoutY="620.0" maxHeight="60.0" maxWidth="130.0" minHeight="60.0" minWidth="130.0" mnemonicParsing="false"  prefHeight="60.0" prefWidth="130.0" text="Alterar">
+      <Button fx:id="btnAlterar" layoutX="183.0" layoutY="620.0" maxHeight="60.0" maxWidth="130.0" minHeight="60.0" minWidth="130.0" mnemonicParsing="false" onAction="#handleAlterar" prefHeight="60.0" prefWidth="130.0" text="Alterar">
          <font>
             <Font name="Segoe UI Semibold" size="20.0" />
          </font>
@@ -192,9 +192,25 @@
             <Font name="Segoe UI Semibold" size="16.0" />
          </font>
       </Label>
-      <TextField fx:id="userUsuario" layoutX="35.0" layoutY="476.0" prefHeight="37.0" prefWidth="168.0" />
-      <TextField fx:id="nomeUsuario" layoutX="236.0" layoutY="476.0" prefHeight="37.0" prefWidth="168.0" />
-      <TextField fx:id="cpfUsuario" layoutX="434.0" layoutY="476.0" prefHeight="37.0" prefWidth="168.0" />
-      <TextField fx:id="cpfUsuario1" layoutX="35.0" layoutY="556.0" prefHeight="37.0" prefWidth="168.0" />
+      <TextField fx:id="userUsuario" layoutX="35.0" layoutY="487.0" prefHeight="37.0" prefWidth="168.0" />
+      <TextField fx:id="nomeUsuario" layoutX="236.0" layoutY="487.0" prefHeight="37.0" prefWidth="168.0" />
+      <TextField fx:id="cpfUsuario" layoutX="434.0" layoutY="487.0" prefHeight="37.0" prefWidth="168.0" />
+      <TextField fx:id="senhaUsuario" layoutX="35.0" layoutY="556.0" prefHeight="37.0" prefWidth="168.0" />
+      <TextField fx:id="pesquisarPlanos" layoutX="13.0" layoutY="168.0" maxHeight="30.0" minHeight="30.0" prefHeight="30.0" prefWidth="198.0" promptText="Pesquisa" />
+      <Button fx:id="btnPesquisar" layoutX="218.0" layoutY="168.0" maxHeight="30.0" maxWidth="30.0" minHeight="30.0" minWidth="30.0" mnemonicParsing="false" onAction="#pesquisarUsuario" prefHeight="30.0" prefWidth="30.0">
+         <font>
+            <Font name="Segoe UI Semibold" size="20.0" />
+         </font>
+         <effect>
+            <DropShadow height="5.0" radius="2.0" width="5.0" />
+         </effect>
+         <graphic>
+            <ImageView fitHeight="26.0" fitWidth="24.0" pickOnBounds="true" preserveRatio="true">
+               <image>
+                  <Image url="@../Img/Lupa.png" />
+               </image>
+            </ImageView>
+         </graphic>
+      </Button>
    </children>
 </AnchorPane>

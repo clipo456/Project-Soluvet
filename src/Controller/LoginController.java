@@ -75,10 +75,7 @@ public class LoginController implements Initializable {
             e.printStackTrace();
         }
     }
-        
-     /**
-     * Initializes the controller class.
-     */
+      
     @Override
     public void initialize(URL url, ResourceBundle rb) {
         // TODO
