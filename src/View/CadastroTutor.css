@@ -7,8 +7,7 @@
 .botao-custom {
     -fx-background-color: white;
     -fx-text-fill: black;
-    -fx-font-size: 16px;
-    -fx-font-weight: bold;
+    -fx-font-size: 14px;
     -fx-padding: 10px 20px;
     -fx-border-radius: 15px;
     -fx-background-radius: 15px;

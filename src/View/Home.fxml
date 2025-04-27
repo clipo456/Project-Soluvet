@@ -18,7 +18,7 @@
     </stylesheets>
    <children>
       <Rectangle fill="#a6c795" height="150.0" opacity="0.6" smooth="false" stroke="#575e58" strokeWidth="0.5" width="1080.0" />
-      <Button fx:id="btnHome" disable="true" layoutX="114.0" layoutY="34.0" mnemonicParsing="false" onAction="#abrirHome" prefHeight="80.0" prefWidth="80.0">
+      <Button fx:id="btnHome" disable="true" layoutX="89.0" layoutY="35.0" mnemonicParsing="false" onAction="#abrirHome" prefHeight="80.0" prefWidth="80.0">
          <graphic>
             <ImageView fitHeight="64.0" fitWidth="60.0" pickOnBounds="true" preserveRatio="true">
                <image>
@@ -30,7 +30,7 @@
             <DropShadow height="5.0" radius="2.0" width="5.0" />
          </effect>
       </Button>
-      <Button layoutX="248.0" layoutY="34.0" mnemonicParsing="false" onAction="#abrirCadastroTutor" prefHeight="80.0" prefWidth="200.0" text="Cadastros">
+      <Button layoutX="205.0" layoutY="36.0" mnemonicParsing="false" onAction="#abrirCadastroTutor" prefHeight="80.0" prefWidth="172.0" text="Cadastrar Tutor">
          <graphic>
             <ImageView fitHeight="43.0" fitWidth="40.0" pickOnBounds="true" preserveRatio="true">
                <image>
@@ -39,13 +39,13 @@
             </ImageView>
          </graphic>
          <font>
-            <Font name="Segoe UI Semibold" size="20.0" />
+            <Font name="Segoe UI Semibold" size="14.0" />
          </font>
          <effect>
             <DropShadow height="5.0" radius="2.0" width="5.0" />
          </effect>
       </Button>
-      <Button layoutX="502.0" layoutY="34.0" mnemonicParsing="false" prefHeight="80.0" prefWidth="200.0" text="Banho e tosa">
+      <Button layoutX="615.0" layoutY="36.0" mnemonicParsing="false" onAction="#abrirCadastroPlanos" prefHeight="80.0" prefWidth="121.0" text="Planos">
          <graphic>
             <ImageView fitHeight="51.0" fitWidth="57.0" pickOnBounds="true" preserveRatio="true">
                <image>
@@ -54,13 +54,28 @@
             </ImageView>
          </graphic>
          <font>
-            <Font name="Segoe UI Semibold" size="20.0" />
+            <Font name="Segoe UI Semibold" size="14.0" />
          </font>
          <effect>
             <DropShadow height="5.0" radius="2.0" width="5.0" />
          </effect>
       </Button>
-      <Button layoutX="756.0" layoutY="34.0" mnemonicParsing="false" onAction="#abrirConsulta" prefHeight="80.0" prefWidth="200.0" text="Consultar">
+      <Button layoutX="413.0" layoutY="36.0" mnemonicParsing="false" onAction="#abrirCadastroPet" prefHeight="80.0" prefWidth="166.0" text="Cadastrar PET">
+         <graphic>
+            <ImageView fitHeight="43.0" fitWidth="40.0" pickOnBounds="true" preserveRatio="true">
+               <image>
+                  <Image url="@../Img/vet%202.png" />
+               </image>
+            </ImageView>
+         </graphic>
+         <font>
+            <Font name="Segoe UI Semibold" size="14.0" />
+         </font>
+         <effect>
+            <DropShadow height="5.0" radius="2.0" width="5.0" />
+         </effect>
+      </Button>
+      <Button layoutX="772.0" layoutY="36.0" mnemonicParsing="false" onAction="#abrirConsulta" prefHeight="80.0" prefWidth="210.0" text="Consultar Cadastros">
          <graphic>
             <ImageView fitHeight="43.0" fitWidth="40.0" pickOnBounds="true" preserveRatio="true">
                <image>
@@ -69,15 +84,15 @@
             </ImageView>
          </graphic>
          <font>
-            <Font name="Segoe UI Semibold" size="20.0" />
+            <Font name="Segoe UI Semibold" size="14.0" />
          </font>
          <effect>
             <DropShadow height="5.0" radius="2.0" width="5.0" />
          </effect>
       </Button>
-      <Button layoutX="1010.0" layoutY="10.0" mnemonicParsing="false" prefHeight="60.0" prefWidth="60.0">
+      <Button layoutX="1010.0" layoutY="10.0" mnemonicParsing="false" onAction="#abrirConfiguracoes" prefHeight="60.0" prefWidth="60.0">
          <graphic>
-            <ImageView fitHeight="38.0" fitWidth="42.0" pickOnBounds="true" preserveRatio="true">
+            <ImageView fx:id="btnConfig" fitHeight="38.0" fitWidth="42.0" pickOnBounds="true" preserveRatio="true">
                <image>
                   <Image url="@../Img/config.png" />
                </image>

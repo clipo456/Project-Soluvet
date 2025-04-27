@@ -80,11 +80,6 @@ public class CadastroTutorController extends Navigation implements Initializable
                 String message = isEditMode ? "Tutor atualizado com sucesso!" : "Tutor cadastrado com sucesso!";
                 showAlert("Sucesso", message, Alert.AlertType.INFORMATION);
                 limparCampos();
-
-                // Close the window if in edit mode
-                if (isEditMode) {
-                    ((Node) btnCadastrar).getScene().getWindow().hide();
-                }
             } else {
                 showAlert("Erro", "Falha ao " + (isEditMode ? "atualizar" : "cadastrar") + " tutor", Alert.AlertType.ERROR);
         }

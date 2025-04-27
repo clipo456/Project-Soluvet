@@ -175,12 +175,12 @@ public class CalendarioController implements Initializable {
         stackPane.getChildren().add(calendarActivityBox);
     }
 
-    private Map<Integer, List<CalendarioActivity>> getCalendarActivitiesMonth(ZonedDateTime dateFocus) {
+        private Map<Integer, List<CalendarioActivity>> getCalendarActivitiesMonth(ZonedDateTime dateFocus) {
         Map<Integer, List<CalendarioActivity>> calendarActivityMap = new HashMap<>();
 
-        String query = "SELECT a.data_agendamento, a.hora, t.nome " +
+        String query = "SELECT a.data_agendamento, a.hora, an.nome as pet_name " +
                        "FROM agendamentos a " +
-                       "JOIN cad_tutor t ON a.id_tutor = t.id_tutor " +
+                       "JOIN cad_animal an ON a.id_animal = an.id_animal " +
                        "WHERE YEAR(a.data_agendamento) = ? " +
                        "AND MONTH(a.data_agendamento) = ? " +
                        "AND a.isDeleted = 0";
@@ -199,9 +199,9 @@ public class CalendarioController implements Initializable {
                 LocalTime localTime = rs.getTime("hora").toLocalTime();
                 ZonedDateTime zonedDateTime = ZonedDateTime.of(localDate, localTime, dateFocus.getZone());
 
-                String clientName = rs.getString("nome");
+                String petName = rs.getString("pet_name");
 
-                CalendarioActivity activity = new CalendarioActivity(zonedDateTime, clientName, 0);
+                CalendarioActivity activity = new CalendarioActivity(zonedDateTime, petName, 0);
                 int day = localDate.getDayOfMonth();
 
                 calendarActivityMap.computeIfAbsent(day, k -> new ArrayList<>()).add(activity);

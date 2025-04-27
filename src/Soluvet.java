@@ -23,12 +23,12 @@ public class Soluvet extends Application {
         Navigation.setMainStage(primaryStage);
         
         // Load the initial view
-        FXMLLoader loader = new FXMLLoader(getClass().getResource("/View/Home.fxml"));
+        FXMLLoader loader = new FXMLLoader(getClass().getResource("/View/Login.fxml"));
         Parent root = loader.load();
         
         // Set up the primary stage
         primaryStage.setScene(new Scene(root));
-        primaryStage.setTitle("PetCare System");
+        primaryStage.setTitle("Login");
         primaryStage.show();
     }
     

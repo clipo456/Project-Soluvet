@@ -2,11 +2,11 @@
 
 <?import java.net.URL?>
 <?import javafx.scene.control.Button?>
-<?import javafx.scene.control.DatePicker?>
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.MenuButton?>
 <?import javafx.scene.control.TableColumn?>
 <?import javafx.scene.control.TableView?>
+<?import javafx.scene.control.TextField?>
 <?import javafx.scene.effect.DropShadow?>
 <?import javafx.scene.image.Image?>
 <?import javafx.scene.image.ImageView?>
@@ -14,12 +14,12 @@
 <?import javafx.scene.shape.Rectangle?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane id="AnchorPane" maxHeight="720.0" maxWidth="1080.0" minHeight="720.0" minWidth="1080.0" prefHeight="720.0" prefWidth="1080.0" styleClass="mainFxmlClass" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Controller.CadastroAgendamentoController">
+<AnchorPane id="AnchorPane" maxHeight="720.0" maxWidth="1080.0" minHeight="720.0" minWidth="1080.0" prefHeight="720.0" prefWidth="1080.0" styleClass="mainFxmlClass" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Controller.CadastroUsuarioController">
     <stylesheets>
-        <URL value="@cadastroagendamento.css" />
+        <URL value="@cadastrousuario.css" />
     </stylesheets>
    <children>
-     <Rectangle fill="#a6c795" height="150.0" opacity="0.6" smooth="false" stroke="#575e58" strokeWidth="0.5" width="1080.0" />
+        <Rectangle fill="#a6c795" height="150.0" opacity="0.6" smooth="false" stroke="#575e58" strokeWidth="0.5" width="1080.0" />
       <Button fx:id="btnHome" layoutX="89.0" layoutY="35.0" mnemonicParsing="false" onAction="#abrirHome" prefHeight="80.0" prefWidth="80.0">
          <graphic>
             <ImageView fitHeight="64.0" fitWidth="60.0" pickOnBounds="true" preserveRatio="true">
@@ -117,47 +117,35 @@
          </effect>
       </Button>
       <Rectangle fill="#ebebfb" height="570.0" layoutY="150.0" smooth="false" stroke="#e8efe4" strokeWidth="0.5" width="1080.0" />
-      <Rectangle arcHeight="15.0" arcWidth="15.0" fill="#e5ebe6" height="536.0" layoutX="25.0" layoutY="164.0" opacity="0.5" stroke="#575e58" strokeLineCap="ROUND" strokeLineJoin="ROUND" strokeWidth="0.5" width="1026.0" />
-      <Label layoutX="38.0" layoutY="509.0" text="Horário">
+      <Rectangle arcHeight="15.0" arcWidth="15.0" fill="#e5ebe6" height="538.0" layoutX="3.0" layoutY="158.0" opacity="0.5" stroke="#575e58" strokeLineCap="ROUND" strokeLineJoin="ROUND" strokeWidth="0.5" width="1073.0" />
+      <Label layoutX="37.0" layoutY="455.0" text="Usuário">
          <font>
             <Font name="Segoe UI Semibold" size="16.0" />
          </font>
       </Label>
-      <Label layoutX="348.0" layoutY="509.0" text="PET">
+      <Label layoutX="434.0" layoutY="455.0" text="CPF">
          <font>
             <Font name="Segoe UI Semibold" size="16.0" />
          </font>
       </Label>
-      <TableView fx:id="tableView" layoutX="37.0" layoutY="248.0" prefHeight="246.0" prefWidth="1002.0">
+      <TableView fx:id="tableView" layoutX="6.0" layoutY="208.0" prefHeight="246.0" prefWidth="1065.0">
         <columns>
-            <TableColumn fx:id="horaAgendamento" prefWidth="143.20003662109377" text="Hora" />
-          <TableColumn fx:id="dataAgendamento" prefWidth="164.7999725341797" text="Data" />
-            <TableColumn fx:id="petAgendamento" minWidth="0.0" prefWidth="228.0" text="PET" />
-            <TableColumn fx:id="tutorAgendamento" prefWidth="225.60003662109375" text="Tutor" />
-            <TableColumn fx:id="planoAgendamento" minWidth="0.0" prefWidth="150.39996337890625" text="Plano" />
+            <TableColumn fx:id="idTbUsuario" prefWidth="57.60000228881836" text="ID" />
+            <TableColumn fx:id="userTbUsuario" minWidth="0.0" prefWidth="228.0" text="Usuário" />
+          <TableColumn fx:id="nomeTbUsuario" prefWidth="259.2000274658203" text="Nome" />
+            <TableColumn fx:id="cpfTbUsuario" prefWidth="185.5999755859375" text="CPF" />
+            <TableColumn fx:id="senhaTbUsuario" minWidth="0.0" prefWidth="185.60003662109375" text="Senha" />
+            <TableColumn fx:id="tipoTbUsuario" prefWidth="116.00006103515625" text="Tipo" />
         </columns>
          <columnResizePolicy>
             <TableView fx:constant="CONSTRAINED_RESIZE_POLICY" />
          </columnResizePolicy>
       </TableView>
-      <DatePicker fx:id="dataPicker" layoutX="38.0" layoutY="196.0" promptText="DD/MM/AAAA" />
-      <Label layoutX="38.0" layoutY="168.0" text="Data">
-         <font>
-            <Font name="Segoe UI Semibold" size="16.0" />
-         </font>
-      </Label>
-    <MenuButton fx:id="horarioMenu" layoutX="38.0" layoutY="535.0" mnemonicParsing="false" popupSide="RIGHT" text="00:00">
-        <!-- Remove the items tags completely -->
-    </MenuButton>
 
-    <MenuButton fx:id="petMenu" layoutX="348.0" layoutY="535.0" mnemonicParsing="false" text="PET">
+    <MenuButton fx:id="tipoUsuario" layoutX="236.0" layoutY="556.0" mnemonicParsing="false" text="Tipo">
         <!-- Remove the items tags completely -->
     </MenuButton>
-
-    <MenuButton fx:id="tutorMenu" layoutX="152.0" layoutY="535.0" mnemonicParsing="false" text="Tutor">
-        <!-- Remove the items tags completely -->
-    </MenuButton>
-      <Label layoutX="152.0" layoutY="509.0" text="Tutor">
+      <Label layoutX="236.0" layoutY="455.0" text="Nome">
          <font>
             <Font name="Segoe UI Semibold" size="16.0" />
          </font>
@@ -193,6 +181,36 @@
          <effect>
             <DropShadow height="5.0" radius="2.0" width="5.0" />
          </effect>
+      </Button>
+      <Label layoutX="38.0" layoutY="530.0" text="Senha">
+         <font>
+            <Font name="Segoe UI Semibold" size="16.0" />
+         </font>
+      </Label>
+      <Label layoutX="236.0" layoutY="530.0" text="Tipo">
+         <font>
+            <Font name="Segoe UI Semibold" size="16.0" />
+         </font>
+      </Label>
+      <TextField fx:id="userUsuario" layoutX="35.0" layoutY="487.0" prefHeight="37.0" prefWidth="168.0" />
+      <TextField fx:id="nomeUsuario" layoutX="236.0" layoutY="487.0" prefHeight="37.0" prefWidth="168.0" />
+      <TextField fx:id="cpfUsuario" layoutX="434.0" layoutY="487.0" prefHeight="37.0" prefWidth="168.0" />
+      <TextField fx:id="senhaUsuario" layoutX="35.0" layoutY="556.0" prefHeight="37.0" prefWidth="168.0" />
+      <TextField fx:id="pesquisarPlanos" layoutX="13.0" layoutY="168.0" maxHeight="30.0" minHeight="30.0" prefHeight="30.0" prefWidth="198.0" promptText="Pesquisa" />
+      <Button fx:id="btnPesquisar" layoutX="218.0" layoutY="168.0" maxHeight="30.0" maxWidth="30.0" minHeight="30.0" minWidth="30.0" mnemonicParsing="false" onAction="#pesquisarUsuario" prefHeight="30.0" prefWidth="30.0">
+         <font>
+            <Font name="Segoe UI Semibold" size="20.0" />
+         </font>
+         <effect>
+            <DropShadow height="5.0" radius="2.0" width="5.0" />
+         </effect>
+         <graphic>
+            <ImageView fitHeight="26.0" fitWidth="24.0" pickOnBounds="true" preserveRatio="true">
+               <image>
+                  <Image url="@../Img/Lupa.png" />
+               </image>
+            </ImageView>
+         </graphic>
       </Button>
    </children>
 </AnchorPane>

@@ -5,6 +5,7 @@
 package Controller;
 
 import Model.Authenticator;
+import Model.Session;
 import java.io.IOException;
 import java.net.URL;
 import java.util.ResourceBundle;
@@ -37,12 +38,15 @@ public class LoginController implements Initializable {
         
         
         if (Authenticator.login(username, password)) {
+                Session sessao = Session.getInstance();
+                sessao.setUsuario(username);
                 showAlert("Login bem-sucedido!", "Bem-vindo, " + username);
                 abrirHome(event);
             } else {
                 showAlert("Erro de Login", "Usuário ou senha inválidos.");
             }
         }
+      
         private void showAlert(String title, String message) {
          Alert alert = new Alert(Alert.AlertType.INFORMATION);
          alert.setTitle(title);
@@ -71,10 +75,7 @@ public class LoginController implements Initializable {
             e.printStackTrace();
         }
     }
-        
-     /**
-     * Initializes the controller class.
-     */
+      
     @Override
     public void initialize(URL url, ResourceBundle rb) {
         // TODO
