@@ -100,7 +100,7 @@ public class CadastroAgendamentoController extends Navigation implements Initial
         petAgendamento.setCellValueFactory(cellData -> {
             try {
                 int idAnimal = cellData.getValue().getIdAnimal();
-                Model.Pet pet = petDAO.getPetById(idAnimal);
+                Model.Pet pet = petDAO.getAllPetById(idAnimal);
                 return new SimpleStringProperty(pet != null ? pet.getNome() : "");
             } catch (Exception e) {
                 return new SimpleStringProperty("");
@@ -110,7 +110,7 @@ public class CadastroAgendamentoController extends Navigation implements Initial
         tutorAgendamento.setCellValueFactory(cellData -> {
             try {
                 int idTutor = cellData.getValue().getIdTutor();
-                Model.Tutor tutor = tutorDAO.getTutorById(idTutor);
+                Model.Tutor tutor = tutorDAO.getAllTutorById(idTutor);
                 return new SimpleStringProperty(tutor != null ? tutor.getNome() : "");
             } catch (Exception e) {
                 return new SimpleStringProperty("");
@@ -120,7 +120,7 @@ public class CadastroAgendamentoController extends Navigation implements Initial
         planoAgendamento.setCellValueFactory(cellData -> {
             try {
                 int idAnimal = cellData.getValue().getIdAnimal();
-                Model.Pet pet = petDAO.getPetById(idAnimal);
+                Model.Pet pet = petDAO.getAllPetById(idAnimal);
                 return new SimpleStringProperty(pet != null ? pet.getId_plano() : "");
             } catch (Exception e) {
                 return new SimpleStringProperty("");

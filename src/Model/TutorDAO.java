@@ -120,36 +120,67 @@ public class TutorDAO {
     }
 
     public Tutor getTutorById(int id) {
-    String query = "SELECT id_tutor, nome, cpf, telefone, data_nascimento, " +
-                  "rua, cidade, bairro, cep, complemento, numero " +
-                  "FROM cad_tutor WHERE id_tutor = ? AND isDeleted = 0";
-    
-    try (Connection connection = new DBConnection().getConnection();
-         PreparedStatement statement = connection.prepareStatement(query)) {
-        
-        statement.setInt(1, id);
-        try (ResultSet resultSet = statement.executeQuery()) {
-            if (resultSet.next()) {
-                return new Tutor(
-                    resultSet.getInt("id_tutor"),
-                    resultSet.getString("nome"),
-                    resultSet.getString("cpf"),
-                    resultSet.getString("telefone"),
-                    resultSet.getString("data_nascimento"),
-                    resultSet.getString("rua"),
-                    resultSet.getString("cidade"),
-                    resultSet.getString("bairro"),
-                    resultSet.getString("cep"),
-                    resultSet.getString("complemento"),
-                    resultSet.getString("numero")
-                );
+        String query = "SELECT id_tutor, nome, cpf, telefone, data_nascimento, " +
+                      "rua, cidade, bairro, cep, complemento, numero " +
+                      "FROM cad_tutor WHERE id_tutor = ? AND isDeleted = 0";
+
+        try (Connection connection = new DBConnection().getConnection();
+             PreparedStatement statement = connection.prepareStatement(query)) {
+
+            statement.setInt(1, id);
+            try (ResultSet resultSet = statement.executeQuery()) {
+                if (resultSet.next()) {
+                    return new Tutor(
+                        resultSet.getInt("id_tutor"),
+                        resultSet.getString("nome"),
+                        resultSet.getString("cpf"),
+                        resultSet.getString("telefone"),
+                        resultSet.getString("data_nascimento"),
+                        resultSet.getString("rua"),
+                        resultSet.getString("cidade"),
+                        resultSet.getString("bairro"),
+                        resultSet.getString("cep"),
+                        resultSet.getString("complemento"),
+                        resultSet.getString("numero")
+                    );
+                }
             }
+        } catch (SQLException e) {
+            e.printStackTrace();
         }
-    } catch (SQLException e) {
-        e.printStackTrace();
+        return null;
     }
-    return null;
-}
     
+    public Tutor getAllTutorById(int id) {
+        String query = "SELECT id_tutor, nome, cpf, telefone, data_nascimento, " +
+                      "rua, cidade, bairro, cep, complemento, numero " +
+                      "FROM cad_tutor WHERE id_tutor = ?";
+
+        try (Connection connection = new DBConnection().getConnection();
+             PreparedStatement statement = connection.prepareStatement(query)) {
+
+            statement.setInt(1, id);
+            try (ResultSet resultSet = statement.executeQuery()) {
+                if (resultSet.next()) {
+                    return new Tutor(
+                        resultSet.getInt("id_tutor"),
+                        resultSet.getString("nome"),
+                        resultSet.getString("cpf"),
+                        resultSet.getString("telefone"),
+                        resultSet.getString("data_nascimento"),
+                        resultSet.getString("rua"),
+                        resultSet.getString("cidade"),
+                        resultSet.getString("bairro"),
+                        resultSet.getString("cep"),
+                        resultSet.getString("complemento"),
+                        resultSet.getString("numero")
+                    );
+                }
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return null;
+    }
     
 }

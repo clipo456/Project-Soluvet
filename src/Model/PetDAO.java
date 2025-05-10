@@ -252,4 +252,42 @@ public class PetDAO {
                System.err.println("Error closing connection: " + e.getMessage());
            }
        }
+       
+    public Pet getAllPetById(int petId) {
+        String query = "SELECT a.id_animal, a.nome, a.data_nascimento, " +
+                     "a.id_tutor, a.raca, a.especie, a.sexo, a.cor, " +
+                     "a.obs_geral, p.nome AS plano_nome, " +
+                     "TIMESTAMPDIFF(YEAR, a.data_nascimento, CURDATE()) AS idade " +
+                     "FROM cad_animal a " +
+                     "JOIN planos p ON a.id_plano = p.id_plano " +
+                     "WHERE a.id_animal = ?";
+
+        try (Connection connection = new DBConnection().getConnection();
+             PreparedStatement statement = connection.prepareStatement(query)) {
+
+            statement.setInt(1, petId);
+            try (ResultSet resultSet = statement.executeQuery()) {
+                if (resultSet.next()) {
+                    return new Pet(
+                        resultSet.getInt("id_animal"),
+                        resultSet.getString("nome"),
+                        resultSet.getDate("data_nascimento").toLocalDate(),
+                        resultSet.getInt("id_tutor"),
+                        resultSet.getString("raca"),
+                        resultSet.getString("especie"),
+                        resultSet.getString("sexo").charAt(0),
+                        resultSet.getString("cor"),
+                        resultSet.getString("obs_geral"),
+                        resultSet.getString("plano_nome"),
+                        resultSet.getInt("idade")
+                    );
+                }
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return null;
+    }
+
+
 }
