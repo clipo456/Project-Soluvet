@@ -103,18 +103,6 @@
             <DropShadow height="5.0" radius="2.0" width="5.0" />
          </effect>
       </Button>
-      <Button layoutX="10.0" layoutY="10.0" maxHeight="50.0" maxWidth="50.0" minHeight="50.0" minWidth="50.0" mnemonicParsing="false" prefHeight="50.0" prefWidth="50.0">
-         <graphic>
-            <ImageView fitHeight="34.0" fitWidth="35.0" pickOnBounds="true" preserveRatio="true">
-               <image>
-                  <Image url="@../Img/back_arrow.png" />
-               </image>
-            </ImageView>
-         </graphic>
-         <effect>
-            <DropShadow height="5.0" radius="2.0" width="5.0" />
-         </effect>
-      </Button>
       <Rectangle fill="#ebebfb" height="570.0" layoutY="150.0" smooth="false" stroke="#e8efe4" strokeWidth="0.5" width="1080.0" />
       <Rectangle arcHeight="15.0" arcWidth="15.0" fill="#a6c795" height="541.0" layoutX="12.0" layoutY="162.0" opacity="0.5" stroke="#575e58" strokeLineCap="ROUND" strokeLineJoin="ROUND" strokeWidth="0.5" width="1055.0" />
       <TableView fx:id="tutorTable" layoutX="28.0" layoutY="233.0" prefHeight="200.0" prefWidth="447.0">
