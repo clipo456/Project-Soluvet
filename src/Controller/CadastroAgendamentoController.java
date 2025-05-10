@@ -8,6 +8,7 @@ import Model.TutorDAO;
 import java.net.URL;
 import java.sql.SQLException;
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.time.LocalTime;
 import java.util.List;
 import java.util.ResourceBundle;
@@ -290,9 +291,16 @@ public class CadastroAgendamentoController extends Navigation implements Initial
         }
     }
 
-    @FXML
+       @FXML
     private void handleCadastrar() {
         if (validarCampos()) {
+            LocalDate data = dataPicker.getValue();
+            LocalTime hora = LocalTime.parse(horarioMenu.getText());
+
+            if (isAgendamentoPassado(data, hora)) {
+                showErrorAlert("Erro", "Não é possível agendar para datas/horários no passado");
+                return;
+            }
             Agendamento agendamento = new Agendamento();
             agendamento.setDataAgendamento(dataPicker.getValue());
             agendamento.setHora(LocalTime.parse(horarioMenu.getText()));
@@ -348,13 +356,27 @@ public class CadastroAgendamentoController extends Navigation implements Initial
         throw new SQLException("Tutor não selecionado");
     }
 
-    @FXML
+   @FXML
     private void handleAlterar() {
         if (agendamentoSelecionado != null && validarCampos()) {
+            // Verificar se o agendamento original já passou
+            if (isAgendamentoPassado(agendamentoSelecionado.getDataAgendamento(), 
+                                   agendamentoSelecionado.getHora())) {
+                showErrorAlert("Erro", "Não é possível alterar agendamentos que já deveriam ter ocorrido");
+                return;
+            }
+
+            // Verificar se a nova data/hora é no passado
+            LocalDate novaData = dataPicker.getValue();
+            LocalTime novoHorario = LocalTime.parse(horarioMenu.getText());
+            if (isAgendamentoPassado(novaData, novoHorario)) {
+                showErrorAlert("Erro", "Não é possível agendar para datas/horários no passado");
+                return;
+            }
+
             agendamentoSelecionado.setDataAgendamento(dataPicker.getValue());
             agendamentoSelecionado.setHora(LocalTime.parse(horarioMenu.getText()));
 
-            // Get selected pet (which also sets the tutor)
             String petSelecionado = petMenu.getText();
             if (!petSelecionado.equals("PET")) {
                 try {
@@ -372,7 +394,6 @@ public class CadastroAgendamentoController extends Navigation implements Initial
                     return;
                 }
             }
-
 
             try {
                 if (agendamentoDAO.existeAgendamentoNoMesmoHorario(
@@ -399,6 +420,13 @@ public class CadastroAgendamentoController extends Navigation implements Initial
     private void handleExcluir() {
         Agendamento agendamentoSelecionado = tableView.getSelectionModel().getSelectedItem();
         if (agendamentoSelecionado != null) {
+            // Verificar se o agendamento já passou
+            if (isAgendamentoPassado(agendamentoSelecionado.getDataAgendamento(),
+                                   agendamentoSelecionado.getHora())) {
+                showErrorAlert("Erro", "Não é possível excluir agendamentos que já deveriam ter ocorrido");
+                return;
+            }
+
             try {
                 agendamentoDAO.removerAgendamento(agendamentoSelecionado.getIdAgenda());
                 carregarAgendamentos();
@@ -478,5 +506,9 @@ public class CadastroAgendamentoController extends Navigation implements Initial
         alert.showAndWait();
     }
 
-    
+    private boolean isAgendamentoPassado(LocalDate data, LocalTime hora) {
+    LocalDateTime agora = LocalDateTime.now();
+    LocalDateTime agendamentoDateTime = LocalDateTime.of(data, hora);
+    return agendamentoDateTime.isBefore(agora);
+}
 }
